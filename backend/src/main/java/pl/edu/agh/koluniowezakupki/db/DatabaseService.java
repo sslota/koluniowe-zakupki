@@ -1,16 +1,44 @@
 package pl.edu.agh.koluniowezakupki.db;
 
-import pl.edu.agh.koluniowezakupki.models.User;
+import pl.edu.agh.koluniowezakupki.db.ports.*;
+import pl.edu.agh.koluniowezakupki.db.models.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DatabaseService {
-    private final DatabaseRepository databaseRepository;
+    private final UserRepository userRepository;
+    private final ShopRepository shopRepository;
+    private final ProductRepository productRepository;
+    private final ShoppingListRepository shoppingListRepository;
+    private final ListProductRepository listProductRepository;
 
-    public DatabaseService(DatabaseRepository transactionRepository) {
-        this.databaseRepository = transactionRepository;
+    public DatabaseService(UserRepository userRepository,
+                           ShopRepository shopRepository,
+                           ProductRepository productRepository,
+                           ShoppingListRepository shoppingListRepository,
+                           ListProductRepository listProductRepository) {
+        this.userRepository = userRepository;
+        this.shopRepository = shopRepository;
+        this.productRepository = productRepository;
+        this.shoppingListRepository = shoppingListRepository;
+        this.listProductRepository = listProductRepository;
     }
 
-    public List<User> getUsers(){ return databaseRepository.findAll(); }
+    public List<User> getUsers(){ return userRepository.findAll(); }
+    public User addUser(User user){ return userRepository.save(user); }
+
+    public List<Shop> getShops(){ return shopRepository.findAll(); }
+    public Shop addShop(Shop shop){ return shopRepository.save(shop); }
+
+    public List<Product> getProducts(){ return productRepository.findAll(); }
+    public Product addProduct(Product product){ return productRepository.save(product); }
+
+    public List<ShoppingList> getUserShoppingLists(Integer userId){ return shoppingListRepository.findByUserId(userId); }
+    public List<Product> getUserShoppingListDetails(Integer listId){ return productRepository.findUserListProducts(listId); }
+    public List<ShoppingList> getShoppingLists(){ return shoppingListRepository.findAll(); }
+    public ShoppingList addShoppingList(ShoppingList shoppingList){ return shoppingListRepository.save(shoppingList); }
+
+    public ListProduct putProductToList(ListProduct listProduct){ return listProductRepository.save(listProduct); }
 
 }
