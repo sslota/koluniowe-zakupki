@@ -1,8 +1,8 @@
-package pl.edu.agh.koluniowezakupki.db.ports;
+package pl.edu.agh.backend.db.ports;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import pl.edu.agh.koluniowezakupki.db.models.Product;
+import pl.edu.agh.backend.db.models.Product;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package pl.edu.agh.koluniowezakupki.config;
+package pl.edu.agh.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.edu.agh.koluniowezakupki.db.ports.*;
-import pl.edu.agh.koluniowezakupki.db.DatabaseService;
+import pl.edu.agh.backend.db.ports.*;
+import pl.edu.agh.backend.db.DatabaseService;
 
 
 @Configuration

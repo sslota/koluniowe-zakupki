@@ -1,4 +1,4 @@
-package pl.edu.agh.koluniowezakupki;
+package pl.edu.agh.backend;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;

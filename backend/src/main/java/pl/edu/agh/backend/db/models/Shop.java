@@ -1,17 +1,20 @@
-package pl.edu.agh.koluniowezakupki.db.models;
+package pl.edu.agh.backend.db.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 @Entity
-@Table(name = "Groups")
+@Table(name = "Shops")
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Group {
+public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
     private String name;
-    private Integer creatorID;
+    @Nullable
+    private Integer userID;
 }

@@ -1,6 +1,6 @@
-package pl.edu.agh.koluniowezakupki.api.models;
+package pl.edu.agh.backend.api.models;
 
-import pl.edu.agh.koluniowezakupki.db.models.Product;
+import pl.edu.agh.backend.db.models.Product;
 
 public record CreateProductRequest(String name, Integer userID) {
     public Product createProduct(){

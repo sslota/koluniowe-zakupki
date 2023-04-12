@@ -1,4 +1,4 @@
-package pl.edu.agh.koluniowezakupki.db.models;
+package pl.edu.agh.backend.db.models;
 
 import jakarta.persistence.*;
 import lombok.*;

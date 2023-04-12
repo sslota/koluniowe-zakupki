@@ -1,6 +1,6 @@
-package pl.edu.agh.koluniowezakupki.api.models;
+package pl.edu.agh.backend.api.models;
 
-import pl.edu.agh.koluniowezakupki.db.models.User;
+import pl.edu.agh.backend.db.models.User;
 
 public record CreateUserRequest(String username, String password) {
     public User createUser(){

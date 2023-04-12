@@ -1,11 +1,11 @@
-package pl.edu.agh.koluniowezakupki.api;
+package pl.edu.agh.backend.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.koluniowezakupki.api.models.*;
-import pl.edu.agh.koluniowezakupki.db.DatabaseService;
-import pl.edu.agh.koluniowezakupki.db.models.*;
+import pl.edu.agh.backend.api.models.*;
+import pl.edu.agh.backend.db.DatabaseService;
+import pl.edu.agh.backend.db.models.*;
 
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package pl.edu.agh.koluniowezakupki;
+package pl.edu.agh.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

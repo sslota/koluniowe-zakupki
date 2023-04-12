@@ -1,8 +1,8 @@
-package pl.edu.agh.koluniowezakupki.db;
+package pl.edu.agh.backend.db;
 
 import lombok.AllArgsConstructor;
-import pl.edu.agh.koluniowezakupki.db.ports.*;
-import pl.edu.agh.koluniowezakupki.db.models.*;
+import pl.edu.agh.backend.db.ports.*;
+import pl.edu.agh.backend.db.models.*;
 
 import java.util.List;
 
