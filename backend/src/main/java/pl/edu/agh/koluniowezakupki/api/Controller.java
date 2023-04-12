@@ -28,8 +28,15 @@ public class Controller {
     }
     @GetMapping("/shops")
     public List<Shop> getShops() {return databaseService.getShops();}
-    @GetMapping("/shoppingLists/{id}")
-    public Optional<ShoppingList> getShoppingList(@PathVariable Integer id) {return databaseService.getShoppingList(id);}
+    @GetMapping(value = {"/shoppingLists", "/shoppingLists/user={userId}"})
+    public List<ShoppingList> getUserShoppingLists(@PathVariable(required = false) Integer userId) {
+        if(userId==null) return databaseService.getShoppingLists();
+        return databaseService.getUserShoppingLists(userId);
+    }
+    @GetMapping("/shoppingLists/list={listId}")
+    public List<Product> getShoppingListDetails(@PathVariable Integer listId) {
+        return databaseService.getUserShoppingListDetails(listId);
+    }
 
 
     @PostMapping("/users")
@@ -51,6 +58,12 @@ public class Controller {
     public ResponseEntity<ShoppingList> createShoppingList(@RequestBody CreateShoppingListRequest createShoppingListRequest) {
         ShoppingList shoppingList = databaseService.addShoppingList( createShoppingListRequest.createShoppingList() );
         return new ResponseEntity<>(shoppingList, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<ListProduct> putProductToList(@RequestParam Integer listID, @RequestParam Integer productID){
+        ListProduct listProduct = databaseService.putProductToList( new ListProduct(listID, productID) );
+        return new ResponseEntity<>(listProduct, HttpStatus.OK);
     }
 
 }
