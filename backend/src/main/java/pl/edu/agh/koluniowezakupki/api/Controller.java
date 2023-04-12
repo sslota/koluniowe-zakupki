@@ -28,12 +28,12 @@ public class Controller {
     }
     @GetMapping("/shops")
     public List<Shop> getShops() {return databaseService.getShops();}
-    @GetMapping(value = {"/shoppingLists", "/shoppingLists/user={userId}"})
+    @GetMapping(value = {"/shopping-lists", "/shopping-lists/user={userId}"})
     public List<ShoppingList> getUserShoppingLists(@PathVariable(required = false) Integer userId) {
         if(userId==null) return databaseService.getShoppingLists();
         return databaseService.getUserShoppingLists(userId);
     }
-    @GetMapping("/shoppingLists/list={listId}")
+    @GetMapping("/shopping-lists/list={listId}")
     public List<Product> getShoppingListDetails(@PathVariable Integer listId) {
         return databaseService.getUserShoppingListDetails(listId);
     }
@@ -54,15 +54,15 @@ public class Controller {
         Shop shop = databaseService.addShop( createShopRequest.createShop() );
         return new ResponseEntity<>(shop, HttpStatus.CREATED);
     }
-    @PostMapping("/shoppingLists")
+    @PostMapping("/shopping-lists")
     public ResponseEntity<ShoppingList> createShoppingList(@RequestBody CreateShoppingListRequest createShoppingListRequest) {
         ShoppingList shoppingList = databaseService.addShoppingList( createShoppingListRequest.createShoppingList() );
         return new ResponseEntity<>(shoppingList, HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PostMapping
     public ResponseEntity<ListProduct> putProductToList(@RequestParam Integer listID, @RequestParam Integer productID){
-        ListProduct listProduct = databaseService.putProductToList( new ListProduct(listID, productID) );
+        ListProduct listProduct = databaseService.putProductToList( ListProduct.builder().listID(listID).productID(productID).build() );
         return new ResponseEntity<>(listProduct, HttpStatus.OK);
     }
 
