@@ -9,7 +9,6 @@ import pl.edu.agh.koluniowezakupki.db.models.*;
 
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/home")

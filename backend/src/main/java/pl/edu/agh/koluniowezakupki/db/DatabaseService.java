@@ -1,11 +1,13 @@
 package pl.edu.agh.koluniowezakupki.db;
 
+import lombok.AllArgsConstructor;
 import pl.edu.agh.koluniowezakupki.db.ports.*;
 import pl.edu.agh.koluniowezakupki.db.models.*;
 
 import java.util.List;
-import java.util.Optional;
 
+
+@AllArgsConstructor
 public class DatabaseService {
     private final UserRepository userRepository;
     private final ShopRepository shopRepository;
@@ -13,17 +15,6 @@ public class DatabaseService {
     private final ShoppingListRepository shoppingListRepository;
     private final ListProductRepository listProductRepository;
 
-    public DatabaseService(UserRepository userRepository,
-                           ShopRepository shopRepository,
-                           ProductRepository productRepository,
-                           ShoppingListRepository shoppingListRepository,
-                           ListProductRepository listProductRepository) {
-        this.userRepository = userRepository;
-        this.shopRepository = shopRepository;
-        this.productRepository = productRepository;
-        this.shoppingListRepository = shoppingListRepository;
-        this.listProductRepository = listProductRepository;
-    }
 
     public List<User> getUsers(){ return userRepository.findAll(); }
     public User addUser(User user){ return userRepository.save(user); }
