@@ -19,13 +19,10 @@ public class ProductController {
         this.productService = productService;
     }
 
-
     @GetMapping
     public List<Product> getProducts() {
         return productService.getProducts();
     }
-
-
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductRequest createProductRequest) {

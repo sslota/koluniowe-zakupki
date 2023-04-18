@@ -6,11 +6,9 @@ import pl.edu.agh.backend.db.models.*;
 
 import java.util.List;
 
-
 @AllArgsConstructor
 public class ShopService {
     private final ShopRepository shopRepository;
-
 
     public List<Shop> getShops(){ return shopRepository.findAll(); }
     public Shop addShop(Shop shop){ return shopRepository.save(shop); }

@@ -18,11 +18,8 @@ public class ShopController {
         this.shopService = shopService;
     }
 
-
     @GetMapping
     public List<Shop> getShops() {return shopService.getShops();}
-
-
 
     @PostMapping
     public ResponseEntity<Shop> createShop(@RequestBody CreateShopRequest createShopRequest) {

@@ -1,5 +1,6 @@
 package pl.edu.agh.backend.api.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +13,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/shopping-lists")
+@RequiredArgsConstructor
 public class ShoppingListController {
     private final ShoppingListService shoppingListService;
-    public ShoppingListController(ShoppingListService shoppingListService) {
-        this.shoppingListService = shoppingListService;
-    }
-
 
     @GetMapping( value = {"", "/shopping-lists/user={userId}"})
     public List<ShoppingList> getUserShoppingLists(@PathVariable(required = false) Integer userId) {
@@ -28,8 +26,6 @@ public class ShoppingListController {
     public List<Product> getShoppingListDetails(@PathVariable Integer listId) {
         return shoppingListService.getUserShoppingListDetails(listId);
     }
-
-
 
     @PostMapping
     public ResponseEntity<ShoppingList> createShoppingList(@RequestBody CreateShoppingListRequest createShoppingListRequest) {
