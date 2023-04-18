@@ -1,6 +1,8 @@
 package pl.edu.agh.backend.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +14,9 @@ import pl.edu.agh.backend.config.JwtService;
 import pl.edu.agh.backend.db.models.Role;
 import pl.edu.agh.backend.db.models.User;
 import pl.edu.agh.backend.db.ports.UserRepository;
+import pl.edu.agh.backend.db.services.UserService;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,17 +27,19 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public Optional<AuthenticationResponse> register(RegisterRequest request) {
         var user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
-        userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        if (addUser(user).isPresent()) {
+            var jwtToken = jwtService.generateToken(user);
+            return Optional.of(AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .build());
+        }
+        else return Optional.empty();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -47,6 +54,12 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    private Optional<User> addUser(User user){
+        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
+        if(existingUser.isPresent()) return Optional.empty();
+        else return Optional.of(userRepository.save(user));
     }
 
 }
