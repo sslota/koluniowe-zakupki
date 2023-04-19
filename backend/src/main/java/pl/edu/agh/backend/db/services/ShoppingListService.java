@@ -28,5 +28,13 @@ public class ShoppingListService {
         product.ifPresent(listProductRepository::delete);
         return product;
     }
+    public Optional<ShoppingList> removeList(Integer listID){
+        Optional<ShoppingList> list = shoppingListRepository.findById(listID);
+        if(list.isPresent()){
+            shoppingListRepository.deleteById(listID);
+            listProductRepository.deleteWithListId(listID);
+        }
+        return list;
+    }
 
 }

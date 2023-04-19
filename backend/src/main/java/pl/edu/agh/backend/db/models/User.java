@@ -37,6 +37,7 @@ public class User implements UserDetails {
         return true;
     }
 
+
     @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
