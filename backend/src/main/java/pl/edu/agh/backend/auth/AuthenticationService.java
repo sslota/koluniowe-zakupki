@@ -1,8 +1,6 @@
 package pl.edu.agh.backend.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +12,6 @@ import pl.edu.agh.backend.config.JwtService;
 import pl.edu.agh.backend.db.models.Role;
 import pl.edu.agh.backend.db.models.User;
 import pl.edu.agh.backend.db.ports.UserRepository;
-import pl.edu.agh.backend.db.services.UserService;
 
 import java.util.Optional;
 

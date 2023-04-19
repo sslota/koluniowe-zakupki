@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.backend.api.models.*;
 import pl.edu.agh.backend.db.services.ProductService;
-import pl.edu.agh.backend.db.services.ShoppingListService;
 import pl.edu.agh.backend.db.models.*;
 
 
