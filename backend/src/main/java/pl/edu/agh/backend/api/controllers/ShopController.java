@@ -1,5 +1,6 @@
 package pl.edu.agh.backend.api.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/shops")
+@RequiredArgsConstructor
 public class ShopController {
     private final ShopService shopService;
-    public ShopController(ShopService shopService) {
-        this.shopService = shopService;
-    }
+
 
     @GetMapping
     public List<Shop> getShops() {return shopService.getShops();}

@@ -15,7 +15,6 @@ import pl.edu.agh.backend.auth.models.RegisterRequest;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
-
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")

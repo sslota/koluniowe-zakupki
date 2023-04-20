@@ -17,9 +17,14 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public ProductService productService(ProductRepository productRepository) {
-        return new ProductService(productRepository);
+    public SocialsService socialsService(FriendRepository friendRepository,
+                                         GroupRepository groupRepository,
+                                         UserRepository userRepository) {
+        return new SocialsService(friendRepository, groupRepository, userRepository);
     }
+
+    @Bean
+    public ProductService productService(ProductRepository productRepository) {return new ProductService(productRepository);}
 
     @Bean
     public ShopService shopService(ShopRepository shopRepository) {
