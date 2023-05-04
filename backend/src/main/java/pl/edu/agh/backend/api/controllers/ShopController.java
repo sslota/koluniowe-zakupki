@@ -10,6 +10,7 @@ import pl.edu.agh.backend.db.models.*;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/shops")
@@ -25,6 +26,18 @@ public class ShopController {
     public ResponseEntity<Shop> createShop(@RequestBody CreateShopRequest createShopRequest) {
         Shop shop = shopService.addShop( createShopRequest.createShop() );
         return new ResponseEntity<>(shop, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<Shop> updateShop(@RequestBody Shop shop) {
+        Shop modifiedShop = shopService.modifyShop( shop );
+        return new ResponseEntity<>(modifiedShop, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Object> removeShop(@RequestParam Integer shopId) {
+        Optional<Shop> shop = shopService.removeShop( shopId );
+        return shop.map(e -> new ResponseEntity<>(HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }
