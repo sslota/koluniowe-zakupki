@@ -10,6 +10,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final ListProductRepository listProductRepository;
 
     public List<Product> getProducts(){ return productRepository.findAll(); }
     public Product addProduct(Product product){ return productRepository.save(product); }
@@ -27,10 +28,11 @@ public class ProductService {
         return productRepository.save(modifiedProduct);
     }
 
-    public Optional<Product> removeProduct(Integer productId) {
-        Optional<Product> product = productRepository.findById(productId);
+    public Optional<Product> removeProduct(Integer productID) {
+        Optional<Product> product = productRepository.findById(productID);
         if(product.isPresent()){
-            productRepository.deleteById(productId);
+            productRepository.deleteById(productID);
+            listProductRepository.deleteWithProductId(productID);
         }
         return product;
     }

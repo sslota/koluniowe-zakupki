@@ -17,14 +17,14 @@ import java.util.Optional;
 public class ShoppingListController {
     private final ShoppingListService shoppingListService;
 
-    @GetMapping( value = {"", "/shopping-lists/user={userId}"})
-    public List<ShoppingList> getUserShoppingLists(@PathVariable(required = false) Integer userId) {
-        if(userId==null) return shoppingListService.getShoppingLists();
-        return shoppingListService.getUserShoppingLists(userId);
+    @GetMapping( value = {"", "/shopping-lists/user={userID}"})
+    public List<ShoppingList> getUserShoppingLists(@PathVariable(required = false) Integer userID) {
+        if(userID==null) return shoppingListService.getShoppingLists();
+        return shoppingListService.getUserShoppingLists(userID);
     }
-    @GetMapping("/list={listId}")
-    public List<Product> getShoppingListDetails(@PathVariable Integer listId) {
-        return shoppingListService.getUserShoppingListDetails(listId);
+    @GetMapping("/list={listID}")
+    public List<Product> getShoppingListDetails(@PathVariable Integer listID) {
+        return shoppingListService.getUserShoppingListDetails(listID);
     }
 
     @PostMapping
@@ -33,9 +33,15 @@ public class ShoppingListController {
         return new ResponseEntity<>(shoppingList, HttpStatus.CREATED);
     }
     @PostMapping("/add")
-    public ResponseEntity<ListProduct> addProductToList(@RequestParam Integer listID, @RequestParam Integer productID){
-        ListProduct listProduct = shoppingListService.addProductToList( ListProduct.builder().listID(listID).productID(productID).build() );
+    public ResponseEntity<ListProduct> addPositionToList(@RequestBody ProductsToListRequest addProductsToListRequest){
+        ListProduct listProduct = shoppingListService.addPositionToList( addProductsToListRequest.createListProduct() );
         return new ResponseEntity<>(listProduct, HttpStatus.OK);
+    }
+
+    @PutMapping("/update-quantity")
+    public ResponseEntity<ListProduct> changeProductQuantityInList(@RequestBody ProductsToListRequest updateQuantityRequest){
+        ListProduct updatedPosition = shoppingListService.changeProductQuantity(updateQuantityRequest.createListProduct());
+        return new ResponseEntity<>(updatedPosition, HttpStatus.OK);
     }
 
     @DeleteMapping("/remove-product-from-list")

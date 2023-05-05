@@ -14,4 +14,9 @@ public interface ListProductRepository extends JpaRepository<ListProduct, Intege
     @Query(value = "DELETE FROM ListProduct lp WHERE lp.listID=:listId")
     void deleteWithListId(@Param("listId") Integer listId);
 
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM ListProduct lp WHERE lp.productID=:productId")
+    void deleteWithProductId(@Param("productId") Integer productId);
+
 }

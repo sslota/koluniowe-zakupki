@@ -10,7 +10,6 @@ import pl.edu.agh.backend.db.models.*;
 
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -37,8 +36,8 @@ public class ProductController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> removeProduct(@RequestParam Integer productId) {
-        Optional<Product> product = productService.removeProduct( productId );
+    public ResponseEntity<Object> removeProduct(@RequestParam Integer productID) {
+        Optional<Product> product = productService.removeProduct(productID);
         return product.map(e -> new ResponseEntity<>(HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

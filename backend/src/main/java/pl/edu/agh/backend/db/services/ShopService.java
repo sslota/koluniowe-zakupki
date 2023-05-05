@@ -27,10 +27,10 @@ public class ShopService {
         return shopRepository.save(modifiedShop);
     }
 
-    public Optional<Shop> removeShop(Integer shopId) {
-        Optional<Shop> shop = shopRepository.findById(shopId);
+    public Optional<Shop> removeShop(Integer shopID) {
+        Optional<Shop> shop = shopRepository.findById(shopID);
         if(shop.isPresent()){
-            shopRepository.deleteById(shopId);
+            shopRepository.deleteById(shopID);
         }
         return shop;
     }

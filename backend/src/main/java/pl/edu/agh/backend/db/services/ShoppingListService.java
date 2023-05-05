@@ -16,12 +16,23 @@ public class ShoppingListService {
     private final ListProductRepository listProductRepository;
 
 
-    public List<ShoppingList> getUserShoppingLists(Integer userId){ return shoppingListRepository.findByUserId(userId); }
-    public List<Product> getUserShoppingListDetails(Integer listId){ return productRepository.findUserListProducts(listId); }
+    public List<ShoppingList> getUserShoppingLists(Integer userID){ return shoppingListRepository.findByUserId(userID); }
+    public List<Product> getUserShoppingListDetails(Integer listID){ return productRepository.findUserListProducts(listID); }
     public List<ShoppingList> getShoppingLists(){ return shoppingListRepository.findAll(); }
     public ShoppingList addShoppingList(ShoppingList shoppingList){ return shoppingListRepository.save(shoppingList); }
 
-    public ListProduct addProductToList(ListProduct listProduct){ return listProductRepository.save(listProduct); }
+    public ListProduct addPositionToList(ListProduct listProduct){ return listProductRepository.save(listProduct); }
+    public ListProduct changeProductQuantity(ListProduct updateQuantityRequest){
+        Example<ListProduct> example = Example.of(ListProduct.builder().listID(updateQuantityRequest.getListID()).productID(updateQuantityRequest.getProductID()).build());
+        Optional<ListProduct> position = listProductRepository.findOne(example);
+        ListProduct updatedPosition;
+        if(position.isPresent()){
+            updatedPosition=position.get();
+            updatedPosition.setQuantity(updateQuantityRequest.getQuantity());
+        }
+        else updatedPosition = updateQuantityRequest;
+        return listProductRepository.save(updatedPosition);
+    }
     public Optional<ListProduct> removeProductFromList(ListProduct listProduct){
         Example<ListProduct> example = Example.of(listProduct);
         Optional<ListProduct> product = listProductRepository.findOne(example);

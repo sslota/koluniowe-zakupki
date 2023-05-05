@@ -16,4 +16,5 @@ public class ListProduct {
     private Integer ID;
     private Integer listID;
     private Integer productID;
+    private Integer quantity;
 }

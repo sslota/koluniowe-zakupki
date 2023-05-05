@@ -30,13 +30,13 @@ public class ShopController {
 
     @PutMapping
     public ResponseEntity<Shop> updateShop(@RequestBody Shop shop) {
-        Shop modifiedShop = shopService.modifyShop( shop );
+        Shop modifiedShop = shopService.modifyShop(shop);
         return new ResponseEntity<>(modifiedShop, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> removeShop(@RequestParam Integer shopId) {
-        Optional<Shop> shop = shopService.removeShop( shopId );
+    public ResponseEntity<Object> removeShop(@RequestParam Integer shopID) {
+        Optional<Shop> shop = shopService.removeShop(shopID);
         return shop.map(e -> new ResponseEntity<>(HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

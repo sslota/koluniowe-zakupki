@@ -27,8 +27,8 @@ public class SocialsService {
         return friendRepository.findOne(example);
     }
 
-    public List<User> findUserFriends(Integer userId){
-        return friendRepository.findFriends(userId);
+    public List<User> findUserFriends(Integer userID){
+        return friendRepository.findFriends(userID);
     }
 
     public List<User> findUsersLike(String username){
