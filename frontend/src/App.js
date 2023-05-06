@@ -7,6 +7,8 @@ import SignUp from "./components/authentications/SignUp";
 import ListAdd from "./components/lists/ListAdd";
 import Profile from "./components/socials/Profile";
 import Friends from "./components/socials/Friends";
+import FriendAdd from "./components/socials/FriendAdd";
+import GroupMake from "./components/socials/GroupMake";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
       <Route path="/list-add" element={<ListAdd />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/friend" element={<Friends />} />
+      <Route path="/friend-add" element={<FriendAdd />} />
+      <Route path="/group-make" element={<GroupMake />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Routes>
