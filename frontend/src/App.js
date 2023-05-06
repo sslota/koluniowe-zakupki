@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Lists from "./components/Lists";
+import Lists from "./components/lists/Lists";
 import SpecificList from "./components/SpecificList";
 import SignIn from "./components/authentications/SignIn";
 import SignUp from "./components/authentications/SignUp";
