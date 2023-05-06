@@ -13,6 +13,8 @@ import Products from "./components/products/Products";
 import ProductAdd from "./components/products/ProductAdd";
 import Tags from "./components/tags/Tags";
 import TagAdd from "./components/tags/TagAdd";
+import Shops from "./components/shops/Shops";
+import ShopAdd from "./components/shops/ShopAdd";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
       <Route path="/product-add" element={<ProductAdd />} />
       <Route path="/tag" element={<Tags />} />
       <Route path="/tag-add" element={<TagAdd />} />
+      <Route path="/shop" element={<Shops />} />
+      <Route path="/shop-add" element={<ShopAdd />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Routes>
