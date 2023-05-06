@@ -38,10 +38,16 @@ public class ShoppingListController {
         return new ResponseEntity<>(listProduct, HttpStatus.OK);
     }
 
-    @DeleteMapping("/remove")
-    public ResponseEntity<ListProduct> removeProductFromList(@RequestParam Integer listID, @RequestParam Integer productID){
+    @DeleteMapping("/remove-product-from-list")
+    public ResponseEntity<Object> removeProductFromList(@RequestParam Integer listID, @RequestParam Integer productID){
         Optional<ListProduct> listProduct =  shoppingListService.removeProductFromList( ListProduct.builder().listID(listID).productID(productID).build() );
-        return listProduct.map(product -> new ResponseEntity<>(product, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return listProduct.map(e -> new ResponseEntity<>(HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping("/remove-list")
+    public ResponseEntity<Object> removeList(@RequestParam Integer listID){
+        Optional<ShoppingList> shoppingList =  shoppingListService.removeList(listID);
+        return shoppingList.map(e -> new ResponseEntity<>(HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }

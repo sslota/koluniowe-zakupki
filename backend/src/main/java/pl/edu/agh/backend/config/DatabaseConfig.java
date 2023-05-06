@@ -17,11 +17,6 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public UserService userService(UserRepository userRepository) {
-        return new UserService(userRepository);
-    }
-
-    @Bean
     public ProductService productService(ProductRepository productRepository) {
         return new ProductService(productRepository);
     }
