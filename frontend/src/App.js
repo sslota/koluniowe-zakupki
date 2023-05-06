@@ -11,6 +11,8 @@ import FriendAdd from "./components/socials/FriendAdd";
 import GroupMake from "./components/socials/GroupMake";
 import Products from "./components/products/Products";
 import ProductAdd from "./components/products/ProductAdd";
+import Tags from "./components/tags/Tags";
+import TagAdd from "./components/tags/TagAdd";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
       <Route path="/group-make" element={<GroupMake />} />
       <Route path="/product" element={<Products />} />
       <Route path="/product-add" element={<ProductAdd />} />
+      <Route path="/tag" element={<Tags />} />
+      <Route path="/tag-add" element={<TagAdd />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Routes>
