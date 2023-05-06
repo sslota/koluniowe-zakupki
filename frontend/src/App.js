@@ -1,9 +1,10 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Lists from "./components/lists/Lists";
-import SpecificList from "./components/SpecificList";
+import SpecificList from "./components/lists/SpecificList";
 import SignIn from "./components/authentications/SignIn";
 import SignUp from "./components/authentications/SignUp";
+import ListAdd from "./components/lists/ListAdd";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/" element={<Lists />} />
       <Route path="/list" element={<Lists />} />
       <Route path="/list/:id" element={<SpecificList />} />
+      <Route path="/list-add" element={<ListAdd />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Routes>
