@@ -15,6 +15,8 @@ import Tags from "./components/tags/Tags";
 import TagAdd from "./components/tags/TagAdd";
 import Shops from "./components/shops/Shops";
 import ShopAdd from "./components/shops/ShopAdd";
+import Blacklist from "./components/shops/blacklist/Blacklist";
+import BlacklistAdd from "./components/shops/blacklist/BlacklistAdd";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
       <Route path="/tag-add" element={<TagAdd />} />
       <Route path="/shop" element={<Shops />} />
       <Route path="/shop-add" element={<ShopAdd />} />
+      <Route path="/blacklist" element={<Blacklist />} />
+      <Route path="/blacklist-add" element={<BlacklistAdd />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Routes>
