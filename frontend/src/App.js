@@ -9,6 +9,8 @@ import Profile from "./components/socials/Profile";
 import Friends from "./components/socials/Friends";
 import FriendAdd from "./components/socials/FriendAdd";
 import GroupMake from "./components/socials/GroupMake";
+import Products from "./components/products/Products";
+import ProductAdd from "./components/products/ProductAdd";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
       <Route path="/friend" element={<Friends />} />
       <Route path="/friend-add" element={<FriendAdd />} />
       <Route path="/group-make" element={<GroupMake />} />
+      <Route path="/product" element={<Products />} />
+      <Route path="/product-add" element={<ProductAdd />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Routes>
