@@ -24,7 +24,10 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public ProductService productService(ProductRepository productRepository) {return new ProductService(productRepository);}
+    public ProductService productService(ProductRepository productRepository,
+                                         ListProductRepository listProductService) {
+        return new ProductService(productRepository, listProductService);
+    }
 
     @Bean
     public ShopService shopService(ShopRepository shopRepository) {
