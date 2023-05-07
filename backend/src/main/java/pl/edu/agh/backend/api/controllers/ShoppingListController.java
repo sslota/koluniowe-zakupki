@@ -17,7 +17,7 @@ import java.util.Optional;
 public class ShoppingListController {
     private final ShoppingListService shoppingListService;
 
-    @GetMapping( value = {"", "/shopping-lists/user={userID}"})
+    @GetMapping( value = {"", "/user={userID}"})
     public List<ShoppingList> getUserShoppingLists(@PathVariable(required = false) Integer userID) {
         if(userID==null) return shoppingListService.getShoppingLists();
         return shoppingListService.getUserShoppingLists(userID);
@@ -36,6 +36,11 @@ public class ShoppingListController {
     public ResponseEntity<ListProduct> addPositionToList(@RequestBody ProductsToListRequest addProductsToListRequest){
         ListProduct listProduct = shoppingListService.addPositionToList( addProductsToListRequest.createListProduct() );
         return new ResponseEntity<>(listProduct, HttpStatus.OK);
+    }
+    @PostMapping("/share")
+    public ResponseEntity<SharedList> shareListToUser(@RequestBody ShareListRequest shareListRequest){
+        SharedList shareList = shoppingListService.shareList(shareListRequest.createShareList());
+        return new ResponseEntity<>(shareList, HttpStatus.OK);
     }
 
     @PutMapping("/update-quantity")

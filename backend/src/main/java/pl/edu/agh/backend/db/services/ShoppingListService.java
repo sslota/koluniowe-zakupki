@@ -14,12 +14,14 @@ public class ShoppingListService {
     private final ProductRepository productRepository;
     private final ShoppingListRepository shoppingListRepository;
     private final ListProductRepository listProductRepository;
+    private final SharedListRepository sharedListRepository;
 
 
     public List<ShoppingList> getUserShoppingLists(Integer userID){ return shoppingListRepository.findByUserId(userID); }
     public List<Product> getUserShoppingListDetails(Integer listID){ return productRepository.findUserListProducts(listID); }
     public List<ShoppingList> getShoppingLists(){ return shoppingListRepository.findAll(); }
     public ShoppingList addShoppingList(ShoppingList shoppingList){ return shoppingListRepository.save(shoppingList); }
+    public SharedList shareList(SharedList sharedList){ return sharedListRepository.save(sharedList); }
 
     public ListProduct addPositionToList(ListProduct listProduct){ return listProductRepository.save(listProduct); }
     public ListProduct changeProductQuantity(ListProduct updateQuantityRequest){
