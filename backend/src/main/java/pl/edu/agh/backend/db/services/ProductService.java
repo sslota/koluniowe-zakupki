@@ -1,6 +1,7 @@
 package pl.edu.agh.backend.db.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Example;
 import pl.edu.agh.backend.db.ports.*;
 import pl.edu.agh.backend.db.models.*;
 
@@ -13,7 +14,11 @@ public class ProductService {
     private final ListProductRepository listProductRepository;
 
     public List<Product> getProducts(){ return productRepository.findAll(); }
-    public Product addProduct(Product product){ return productRepository.save(product); }
+    public Product addProduct(Product product){
+        Example<Product> example = Example.of(product);
+        Optional<Product> productInDb = productRepository.findOne(example);
+        return productInDb.orElseGet(() -> productRepository.save(product));
+    }
     public Product modifyProduct(Product product){
         Optional<Product> productInDb = productRepository.findById(product.getID());
         Product modifiedProduct;

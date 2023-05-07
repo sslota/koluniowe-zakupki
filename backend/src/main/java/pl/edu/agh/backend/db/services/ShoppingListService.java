@@ -20,10 +20,21 @@ public class ShoppingListService {
     public List<ShoppingList> getUserShoppingLists(Integer userID){ return shoppingListRepository.findByUserId(userID); }
     public List<Product> getUserShoppingListDetails(Integer listID){ return productRepository.findUserListProducts(listID); }
     public List<ShoppingList> getShoppingLists(){ return shoppingListRepository.findAll(); }
-    public ShoppingList addShoppingList(ShoppingList shoppingList){ return shoppingListRepository.save(shoppingList); }
-    public SharedList shareList(SharedList sharedList){ return sharedListRepository.save(sharedList); }
-
-    public ListProduct addPositionToList(ListProduct listProduct){ return listProductRepository.save(listProduct); }
+    public ShoppingList addShoppingList(ShoppingList shoppingList){
+        Example<ShoppingList> example = Example.of(shoppingList);
+        Optional<ShoppingList> shoppingListInDb = shoppingListRepository.findOne(example);
+        return shoppingListInDb.orElseGet(() -> shoppingListRepository.save(shoppingList));
+    }
+    public SharedList shareList(SharedList sharedList) {
+        Example<SharedList> example = Example.of(sharedList);
+        Optional<SharedList> sharedListInDb = sharedListRepository.findOne(example);
+        return sharedListInDb.orElseGet(() -> sharedListRepository.save(sharedList));
+    }
+    public ListProduct addPositionToList(ListProduct listProduct){
+        Example<ListProduct> example = Example.of(listProduct);
+        Optional<ListProduct> listProductInDb = listProductRepository.findOne(example);
+        return listProductInDb.orElseGet(() -> listProductRepository.save(listProduct));
+    }
     public ListProduct changeProductQuantity(ListProduct updateQuantityRequest){
         Example<ListProduct> example = Example.of(ListProduct.builder().listID(updateQuantityRequest.getListID()).productID(updateQuantityRequest.getProductID()).build());
         Optional<ListProduct> position = listProductRepository.findOne(example);

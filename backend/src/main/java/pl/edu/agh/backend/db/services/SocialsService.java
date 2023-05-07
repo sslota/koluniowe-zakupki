@@ -3,6 +3,7 @@ package pl.edu.agh.backend.db.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import pl.edu.agh.backend.db.models.Friend;
+import pl.edu.agh.backend.db.models.Shop;
 import pl.edu.agh.backend.db.models.User;
 import pl.edu.agh.backend.db.ports.FriendRepository;
 import pl.edu.agh.backend.db.ports.GroupRepository;
@@ -19,7 +20,9 @@ public class SocialsService {
 
 
     public Friend addFriend(Friend friend){
-        return friendRepository.save(friend);
+        Example<Friend> example = Example.of(friend);
+        Optional<Friend> friendInDb = friendRepository.findOne(example);
+        return friendInDb.orElseGet(() -> friendRepository.save(friend));
     }
 
     public Optional<Friend> findFriend(Friend friend){
