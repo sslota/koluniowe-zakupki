@@ -26,7 +26,8 @@ function Navbar() {
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
-    window.alert("You have been signed out.");
+    localStorage.removeItem("id");
+    window.alert("You have been signed out");
     navigate("/sign-in");
   };
 

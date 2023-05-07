@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import DropdownMenu from "../DropdownMenu";
 import {
   DocumentDuplicateIcon,
@@ -9,25 +9,44 @@ import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
 function Lists() {
-  // const listsData = [
-  //   { id: 1, name: "List1", state: true },
-  //   { id: 2, name: "List2", state: false },
-  //   { id: 3, name: "List3", state: false },
-  // ];
   const [listsData, setLists] = useState([]);
+
+  const chooseFavourite = (id) => {
+    const updatedListData = listsData.map((list) => {
+      if (list.id === id) {
+        return {
+          ...list,
+          state: !list.state,
+        };
+      } else {
+        return list;
+      }
+    });
+    setLists(updatedListData);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-      async function fetchLists() {
-          const response = await fetch("http://localhost:8080/shopping-lists", {
-              headers: {
-                  Authorization: `Bearer ${token}`
-              }
-          });
-          const data = await response.json();
-          setLists(data);
-      }
-      fetchLists();
+    const id = localStorage.getItem("id");
+    async function fetchLists() {
+      const response = await fetch(
+        `http://localhost:8080/shopping-lists/user=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      const updatedData = data.map((list) => ({
+        ...list,
+        state: false,
+      }));
+      setLists(updatedData);
+    }
+    fetchLists().then((response) => {
+      return response;
+    });
   }, []);
 
   return (
@@ -49,12 +68,14 @@ function Lists() {
               {list.state ? (
                 <HeartSolidIcon
                   className="text-red-500 h-8 w-8 cursor-pointer"
-                  title="add to favourite"
+                  title="remove from favourite"
+                  onClick={() => chooseFavourite(list.id)}
                 />
               ) : (
                 <HeartOutlineIcon
                   className="text-gray-600 h-8 w-8 cursor-pointer"
                   title="add to favourite"
+                  onClick={() => chooseFavourite(list.id)}
                 />
               )}
               <TrashIcon

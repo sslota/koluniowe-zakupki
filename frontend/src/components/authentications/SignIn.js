@@ -1,14 +1,13 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function SignIn() {
-
   const history = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (event) => {
+  const signIn = (event) => {
     event.preventDefault();
     fetch("http://localhost:8080/api/v1/auth/authenticate", {
       method: "POST",
@@ -17,17 +16,23 @@ function SignIn() {
       },
       body: JSON.stringify({
         username: username,
-        password: password
+        password: password,
       }),
     })
-    .then(response => response.json())
-    .then(data => {
-      const token = data.token;
-      console.log(token);
-      localStorage.setItem("token", token);
-      history('/');
-    })
-    .catch(err => console.log(err));
+      .then((response) => response.json())
+      .then((data) => {
+        const token = data.token;
+        const id = data.userID;
+        console.log(token);
+        console.log(id);
+        localStorage.setItem("token", token);
+        localStorage.setItem("id", id);
+        history("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setError("Invalid username or password");
+      });
   };
 
   return (
@@ -45,11 +50,11 @@ function SignIn() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form 
-          className="space-y-6" 
-          action="#" 
-          method="POST"
-          onSubmit={handleSubmit}
+          <form
+            className="space-y-6"
+            action="#"
+            method="POST"
+            onSubmit={signIn}
           >
             <div>
               <label
@@ -93,6 +98,11 @@ function SignIn() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
+              {error && (
+                <div className="mt-2 text-center text-sm text-red-600">
+                  {error}
+                </div>
+              )}
             </div>
 
             <div>
