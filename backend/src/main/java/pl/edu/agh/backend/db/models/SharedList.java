@@ -1,19 +1,21 @@
 package pl.edu.agh.backend.db.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "ShoppingLists")
+@Table(name = "SharedList")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShoppingList {
+public class SharedList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
-    private String name;
     private Integer userID;
-
+    private Integer listID;
 }

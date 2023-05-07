@@ -2,6 +2,7 @@ package pl.edu.agh.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.edu.agh.backend.db.models.SharedList;
 import pl.edu.agh.backend.db.ports.*;
 import pl.edu.agh.backend.db.services.*;
 
@@ -11,9 +12,10 @@ public class DatabaseConfig {
 
     @Bean
     public ShoppingListService shoppingListService(ProductRepository productRepository,
-                                               ShoppingListRepository shoppingListRepository,
-                                               ListProductRepository listProductRepository) {
-        return new ShoppingListService(productRepository, shoppingListRepository, listProductRepository);
+                                                   ShoppingListRepository shoppingListRepository,
+                                                   ListProductRepository listProductRepository,
+                                                   SharedListRepository sharedListRepository) {
+        return new ShoppingListService(productRepository, shoppingListRepository, listProductRepository, sharedListRepository);
     }
 
     @Bean
