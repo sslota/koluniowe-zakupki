@@ -23,6 +23,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .cors()
+                .and()
                 .csrf().disable() //Wyłącza ochronę przed atakami CSRF (Cross-Site Request Forgery).
                 .authorizeHttpRequests() //Rozpoczyna konfigurację reguł autoryzacji.
                 .requestMatchers("/api/v1/auth/**").permitAll() //Ustala, że wszystkie żądania spełniające wzorzec "/api/v1/**" mają być dostępne dla wszystkich (bez wymagania uwierzytelnienia)
