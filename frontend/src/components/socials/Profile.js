@@ -8,7 +8,7 @@ function Profile() {
       <UserIcon className="h-64 w-64" />
       <div className="text-gray-800 text-4xl font-semibold"> Username </div>
 
-      <div className="absolute top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
+      <div className="fixed top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
         <DropdownMenu />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import DropdownMenu from "../DropdownMenu";
 import {
   DocumentDuplicateIcon,
@@ -9,11 +9,26 @@ import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
 function Lists() {
-  const listsData = [
-    { id: 1, name: "List1", state: true },
-    { id: 2, name: "List2", state: false },
-    { id: 3, name: "List3", state: false },
-  ];
+  // const listsData = [
+  //   { id: 1, name: "List1", state: true },
+  //   { id: 2, name: "List2", state: false },
+  //   { id: 3, name: "List3", state: false },
+  // ];
+  const [listsData, setLists] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+      async function fetchLists() {
+          const response = await fetch("http://localhost:8080/shopping-lists", {
+              headers: {
+                  Authorization: `Bearer ${token}`
+              }
+          });
+          const data = await response.json();
+          setLists(data);
+      }
+      fetchLists();
+  }, []);
 
   return (
     <div className="flex items-center justify-center mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
@@ -34,12 +49,12 @@ function Lists() {
               {list.state ? (
                 <HeartSolidIcon
                   className="text-red-500 h-8 w-8 cursor-pointer"
-                  title="Dodaj do ulubionych"
+                  title="add to favourite"
                 />
               ) : (
                 <HeartOutlineIcon
                   className="text-gray-600 h-8 w-8 cursor-pointer"
-                  title="Dodaj do ulubionych"
+                  title="add to favourite"
                 />
               )}
               <TrashIcon
@@ -51,13 +66,13 @@ function Lists() {
         ))}
       </div>
 
-      <Link className="absolute bottom-24" to="/list-add">
+      <Link className="fixed bottom-24" to="/list-add">
         <button className="rounded-md bg-indigo-600 px-32 py-4 font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
           Add list
         </button>
       </Link>
 
-      <div className="absolute top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
+      <div className="fixed top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
         <DropdownMenu />
       </div>
     </div>

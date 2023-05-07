@@ -57,7 +57,7 @@ function SpecificList() {
         ))}
       </div>
 
-      <div className="absolute bottom-24 sm:flex sm:space-y-0 sm:space-x-10 grid grid-flow-row place-items-center space-y-4">
+      <div className="fixed bottom-24 sm:flex sm:space-y-0 sm:space-x-10 grid grid-flow-row place-items-center space-y-4">
         <Link to={`/list/${id}/add-product`}>
           <button className="rounded-md bg-indigo-600 px-8 sm:px-16 lg:px-32 py-4 font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             Add product
@@ -65,7 +65,7 @@ function SpecificList() {
         </Link>
       </div>
 
-      <div className="absolute top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
+      <div className="fixed top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
         <DropdownMenu />
       </div>
     </div>

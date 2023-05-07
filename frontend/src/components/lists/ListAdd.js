@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ListAdd() {
-  const handleSubmit = (event) => {};
+
+  const [name, setName] = useState("");
+  const [userID, setUserID] = useState("");
+  const history = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:8080/shopping-lists", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+        body: JSON.stringify({
+          name: name,
+          userID: userID
+        }),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    window.alert("List added successfully!")
+    history("/");
+    return response.json();
+  })
+  .catch((error) => {
+    console.error("There has been a problem with your fetch operation:", error);
+  });
+};
 
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -25,6 +56,8 @@ function ListAdd() {
               type="name"
               autoComplete="name"
               required
+              value={name}
+              onChange={(event) => setName(event.target.value)}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
@@ -33,18 +66,20 @@ function ListAdd() {
         <div>
           <div className="flex items-center justify-between">
             <label
-              htmlFor="product"
+              htmlFor="userID"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Products
+              UserID
             </label>
           </div>
           <div className="mt-2">
             <input
-              id="product"
-              name="product"
-              type="product"
+              id="userID"
+              name="userID"
+              type="userID"
               required
+              value={userID}
+              onChange={(event) => setUserID(event.target.value)}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>

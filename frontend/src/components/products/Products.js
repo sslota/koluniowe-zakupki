@@ -29,13 +29,13 @@ function Products() {
         ))}
       </div>
 
-      <Link className="absolute bottom-24" to="/product-add">
+      <Link className="fixed bottom-24" to="/product-add">
         <button className="rounded-md bg-indigo-600 px-32 py-4 font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
           Add Product
         </button>
       </Link>
 
-      <div className="absolute top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
+      <div className="fixed top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
         <DropdownMenu />
       </div>
     </div>

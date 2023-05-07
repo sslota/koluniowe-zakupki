@@ -33,7 +33,7 @@ function Friends() {
             </div>
           </div>
         ))}
-        <Link className="absolute bottom-24" to="/friend-add">
+        <Link className="fixed bottom-24" to="/friend-add">
           <button className="rounded-md bg-indigo-600 px-8 sm:px-16 lg:px-32 py-4 font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             Add friend
           </button>
@@ -55,14 +55,14 @@ function Friends() {
             </div>
           </div>
         ))}
-        <Link className="absolute bottom-24" to="/group-make">
+        <Link className="fixed bottom-24" to="/group-make">
           <button className="rounded-md bg-indigo-600 px-8 sm:px-16 lg:px-32 py-4 font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             Make group
           </button>
         </Link>
       </div>
 
-      <div className="absolute top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
+      <div className="fixed top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
         <DropdownMenu />
       </div>
     </div>

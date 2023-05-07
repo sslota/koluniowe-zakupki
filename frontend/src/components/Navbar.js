@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import React from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 const navigation = [
   {
@@ -21,6 +22,14 @@ function classNames(...classes) {
 }
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    window.alert("You have been signed out.");
+    navigate("/sign-in");
+  };
+
   return (
     <Disclosure as="nav" className="bg-gray-500">
       {({ open }) => (
@@ -106,17 +115,30 @@ function Navbar() {
                         )}
                       </Menu.Item>
                       <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="/sign-in"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Sign out
-                          </a>
-                        )}
+                        {({ active }) =>
+                          localStorage.getItem("token") ? (
+                            <a
+                              href="/sign-in"
+                              onClick={handleSignOut}
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Sign out
+                            </a>
+                          ) : (
+                            <a
+                              href="/sign-in"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Sign in
+                            </a>
+                          )
+                        }
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
