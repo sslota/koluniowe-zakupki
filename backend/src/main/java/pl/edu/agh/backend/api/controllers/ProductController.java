@@ -19,8 +19,8 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public List<Product> getProducts() {
-        return productService.getProducts();
+    public List<Product> getProductsAvailableToUser(Integer userID) {
+        return productService.getProducts(userID);
     }
 
     @PostMapping

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface FriendRepository extends JpaRepository<Friend, Integer> {
 
-    @Query(value = "SELECT u FROM User u join Friend f on f.friendID=u.ID where f.userID = :userId")
-    List<User> findFriends(Integer userId);
+    @Query(value = "SELECT u FROM User u join Friend f on f.friendID=u.ID where f.userID = :userID")
+    List<User> findFriends(Integer userID);
 
 }

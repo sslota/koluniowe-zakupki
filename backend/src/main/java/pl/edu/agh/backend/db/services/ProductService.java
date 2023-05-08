@@ -13,7 +13,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ListProductRepository listProductRepository;
 
-    public List<Product> getProducts(){ return productRepository.findAll(); }
+    public List<Product> getProducts(Integer userID){ return productRepository.findProducts(userID); }
     public Product addProduct(Product product){
         Example<Product> example = Example.of(product);
         Optional<Product> productInDb = productRepository.findOne(example);
