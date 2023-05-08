@@ -17,7 +17,7 @@ function Friends() {
     const id = localStorage.getItem("id");
     async function fetchFriends() {
       const response = await fetch(
-        `http://localhost:8080/socials/friends?userId=${id}`,
+        `http://localhost:8080/socials/friends?userID=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -32,12 +32,32 @@ function Friends() {
     });
   }, []);
 
+  const removeFriend = async (friendID) => {
+    if (window.confirm("Confirm to remove friend")) {
+      const token = localStorage.getItem("token");
+      const id = localStorage.getItem("id");
+      await fetch(
+        `http://localhost:8080/socials/friends?userID=${id}&friendID=${friendID}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const updatedFriendList = friends.filter(
+        (friend) => friend.ID !== friendID
+      );
+      setFriends(updatedFriendList);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center space-x-10 mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
       <div className="grid place-items-center gap-10 w-1/2 max-w-screen-md">
         {friends.map((friend) => (
           <div
-            key={friend.id}
+            key={friend.ID}
             className="bg-white p-5 rounded-md flex items-center justify-between space-x-10 w-3/4"
           >
             <div className="text-gray-800 text-2xl">{friend.username}</div>
@@ -45,6 +65,7 @@ function Friends() {
               <TrashIcon
                 className="text-gray-600 h-8 w-8 cursor-pointer"
                 title="Delete"
+                onClick={() => removeFriend(friend.ID)}
               />
             </div>
           </div>

@@ -35,8 +35,6 @@ const AddProductToList = () => {
 
   const addPositionToList = async (event) => {
     event.preventDefault();
-    console.log(selectedProduct.id);
-    console.log(id);
     if (!selectedProduct) {
       return;
     }
