@@ -6,6 +6,7 @@ import pl.edu.agh.backend.db.ports.*;
 import pl.edu.agh.backend.db.models.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -18,7 +19,7 @@ public class ShoppingListService {
 
 
     public List<ShoppingList> getUserShoppingLists(Integer userID){ return shoppingListRepository.findByUserId(userID); }
-    public List<Product> getUserShoppingListDetails(Integer listID){ return productRepository.findUserListProducts(listID); }
+    public List<ListPosition> getShoppingListDetails(Integer listID){ return productRepository.findProductsiInList(listID); }
     public List<ShoppingList> getShoppingLists(){ return shoppingListRepository.findAll(); }
     public ShoppingList addShoppingList(ShoppingList shoppingList){
         Example<ShoppingList> example = Example.of(shoppingList);

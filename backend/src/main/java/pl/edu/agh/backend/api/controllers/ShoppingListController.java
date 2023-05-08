@@ -23,8 +23,8 @@ public class ShoppingListController {
         return shoppingListService.getUserShoppingLists(userID);
     }
     @GetMapping("/list={listID}")
-    public List<Product> getShoppingListDetails(@PathVariable Integer listID) {
-        return shoppingListService.getUserShoppingListDetails(listID);
+    public List<ListPosition> getShoppingListDetails(@PathVariable Integer listID) {
+        return shoppingListService.getShoppingListDetails(listID);
     }
 
     @PostMapping
