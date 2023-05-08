@@ -11,6 +11,23 @@ import { Link } from "react-router-dom";
 function Lists() {
   const [listsData, setLists] = useState([]);
 
+  const deleteList = async (id) => {
+    if (window.confirm("Confirm to delete this list")) {
+      const token = localStorage.getItem("token");
+      await fetch(
+        `http://localhost:8080/shopping-lists/remove-list?listID=${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const updatedListData = listsData.filter((list) => list.id !== id);
+      setLists(updatedListData);
+    }
+  };
+
   const chooseFavourite = (id) => {
     const updatedListData = listsData.map((list) => {
       if (list.id === id) {
@@ -57,7 +74,7 @@ function Lists() {
             key={list.id}
             className="bg-white p-5 rounded-md flex items-center justify-between space-x-10"
           >
-            <Link to={`/list/${list.name}`} className="text-gray-800 text-2xl">
+            <Link to={`/list/${list.id}`} className="text-gray-800 text-2xl">
               {list.name}
             </Link>
             <div className="flex items-center space-x-2">
@@ -81,6 +98,7 @@ function Lists() {
               <TrashIcon
                 className="text-gray-600 h-8 w-8 cursor-pointer"
                 title="Delete"
+                onClick={() => deleteList(list.id)}
               />
             </div>
           </div>

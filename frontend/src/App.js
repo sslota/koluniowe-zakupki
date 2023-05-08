@@ -19,32 +19,37 @@ import Tags from "./components/tags/Tags";
 import TagAdd from "./components/tags/TagAdd";
 import SpecificList from "./components/lists/list/SpecificList";
 import AddProductToList from "./components/lists/list/AddProductToList";
+import AuthGuard from "./AuthGuard";
 
 function App() {
-
   return (
     <Routes>
-      <Route path="/" element={<Lists />} />
-      <Route path="/list" element={<Lists />} />
-      <Route path="/list-add" element={<ListAdd />} />
-      <Route path="/list/:id/route" element={<Map />} />
-      <Route path="/list/:id/add-product" element={<AddProductToList />} />
-      <Route path="/list/:id" element={<SpecificList />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/friend" element={<Friends />} />
-      <Route path="/friend-add" element={<FriendAdd />} />
-      <Route path="/group-make" element={<GroupMake />} />
-      <Route path="/product" element={<Products />} />
-      <Route path="/product-add" element={<ProductAdd />} />
-      <Route path="/shop" element={<Shops />} />
-      <Route path="/shop-add" element={<ShopAdd />} />
-      <Route path="/blacklist" element={<Blacklist />} />
-      <Route path="/blacklist-add" element={<BlacklistAdd />} />
-      <Route path="/tag" element={<Tags />} />
-      <Route path="/tag-add" element={<TagAdd />} />
+      <Route path="/*" element={<AuthGuard element={Lists} />} />
+      <Route path="/list" element={<AuthGuard element={Lists} />} />
+      <Route path="/list-add" element={<AuthGuard element={ListAdd} />} />
+      <Route path="/list/:id/route" element={<AuthGuard element={Map} />} />
+      <Route
+        path="/list/:id/add-product"
+        element={<AuthGuard element={AddProductToList} />}
+      />
+      <Route path="/list/:id" element={<AuthGuard element={SpecificList} />} />
+      <Route path="/profile" element={<AuthGuard element={Profile} />} />
+      <Route path="/friend" element={<AuthGuard element={Friends} />} />
+      <Route path="/friend-add" element={<AuthGuard element={FriendAdd} />} />
+      <Route path="/group-make" element={<AuthGuard element={GroupMake} />} />
+      <Route path="/product" element={<AuthGuard element={Products} />} />
+      <Route path="/product-add" element={<AuthGuard element={ProductAdd} />} />
+      <Route path="/shop" element={<AuthGuard element={Shops} />} />
+      <Route path="/shop-add" element={<AuthGuard element={ShopAdd} />} />
+      <Route path="/blacklist" element={<AuthGuard element={Blacklist} />} />
+      <Route
+        path="/blacklist-add"
+        element={<AuthGuard element={BlacklistAdd} />}
+      />
+      <Route path="/tag" element={<AuthGuard element={Tags} />} />
+      <Route path="/tag-add" element={<AuthGuard element={TagAdd} />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
-      <Route path="/about-us" element={<Lists />} />
     </Routes>
   );
 }

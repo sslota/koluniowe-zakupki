@@ -23,8 +23,6 @@ function SignIn() {
       .then((data) => {
         const token = data.token;
         const id = data.userID;
-        console.log(token);
-        console.log(id);
         localStorage.setItem("token", token);
         localStorage.setItem("id", id);
         history("/");
@@ -67,7 +65,6 @@ function SignIn() {
                 <input
                   id="username"
                   name="username"
-                  type="username"
                   autoComplete="username"
                   required
                   value={username}

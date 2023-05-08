@@ -1,18 +1,65 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const AddProductToList = () => {
-  const Products = [
-    { id: 1, name: "Product1" },
-    { id: 2, name: "Product2" },
-    { id: 3, name: "Product3" },
-  ];
-
+  const [products, setProducts] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate();
   const { id } = useParams();
 
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    async function fetchProducts() {
+      try {
+        const response = await fetch("http://localhost:8080/products", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchProducts().then((response) => {
+      return response;
+    });
+  }, []);
 
-  const handleSubmit = (event) => {};
+  const addPositionToList = async (event) => {
+    event.preventDefault();
+    console.log(selectedProduct.id);
+    console.log(id);
+    if (!selectedProduct) {
+      return;
+    }
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(`http://localhost:8080/shopping-lists/add`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          listID: id,
+          productID: selectedProduct.id,
+          quantity: quantity,
+        }),
+      });
+      if (response.ok) {
+        console.log("added");
+        navigate(`/list/${id}`);
+      } else {
+        console.error("failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleProductSelect = (product) => {
     setSelectedProduct(product);
@@ -24,7 +71,7 @@ const AddProductToList = () => {
         className="space-y-6"
         action="#"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={addPositionToList}
       >
         <div>
           <label
@@ -42,7 +89,9 @@ const AddProductToList = () => {
               value={selectedProduct ? selectedProduct.id : ""}
               onChange={(e) =>
                 handleProductSelect(
-                  Products.find((shop) => shop.id === parseInt(e.target.value))
+                  products.find(
+                    (product) => product.id === parseInt(e.target.value)
+                  )
                 )
               }
               className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -50,12 +99,35 @@ const AddProductToList = () => {
               <option value="" disabled hidden>
                 Choose a product
               </option>
-              {Products.map((product) => (
+              {products.map((product) => (
                 <option key={product.id} value={product.id}>
                   {product.name}
                 </option>
               ))}
             </select>
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between">
+            <label
+              htmlFor="quantity"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Quantity
+            </label>
+          </div>
+          <div className="mt-2">
+            <input
+              id="quantity"
+              name="quantity"
+              type="number"
+              autoComplete="current-quantity"
+              required
+              value={quantity}
+              onChange={(event) => setQuantity(event.target.value)}
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
           </div>
         </div>
 
