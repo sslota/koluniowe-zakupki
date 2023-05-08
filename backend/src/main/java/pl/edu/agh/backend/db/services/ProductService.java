@@ -14,8 +14,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ListProductRepository listProductRepository;
 
-    public List<Product> getProducts(Integer userID, Integer listID){
-        List<Product> toChoose = productRepository.findProducts(userID);
+    public List<Product> getProductsAvaliableForList(Integer userID, Integer listID){
+        List<Product> toChoose = productRepository.findUserAndDefaultProducts(userID);
         List<ListPosition> chosen = productRepository.findProductsiInList(listID);
         return toChoose.stream().filter(e->{
             for(ListPosition lp:chosen){
@@ -24,11 +24,15 @@ public class ProductService {
             return true;
         }).toList();
     }
+
+    public List<Product> getUserProducts(Integer userID){ return productRepository.findUserProducts(userID); }
+
     public Product addProduct(Product product){
         Example<Product> example = Example.of(product);
         Optional<Product> productInDb = productRepository.findOne(example);
         return productInDb.orElseGet(() -> productRepository.save(product));
     }
+
     public Product modifyProduct(Product product){
         Optional<Product> productInDb = productRepository.findById(product.getID());
         Product modifiedProduct;

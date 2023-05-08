@@ -13,6 +13,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<ListPosition> findProductsiInList(Integer listID);
 
     @Query(value = "SELECT p FROM Product p WHERE p.userID=:userID OR p.userID=null")
-    List<Product> findProducts(Integer userID);
+    List<Product> findUserAndDefaultProducts(Integer userID);
+
+    @Query(value = "SELECT p FROM Product p WHERE p.userID=:userID")
+    List<Product> findUserProducts(Integer userID);
 
 }
