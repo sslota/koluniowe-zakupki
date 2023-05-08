@@ -62,4 +62,28 @@ public class ShoppingListService {
         return list;
     }
 
+    public Optional<ShoppingList> duplicateShoppingList(Integer listID){
+        Optional<ShoppingList> list = shoppingListRepository.findById(listID);
+        if(list.isPresent()){
+            int i=1;
+            ShoppingList sl;
+            Optional<ShoppingList> optional;
+            Integer userID = list.get().getUserID();
+            String name = list.get().getName();
+            do{
+                sl = ShoppingList
+                        .builder()
+                        .userID(userID)
+                        .name(name + " COPY:" + i)
+                        .build();
+                Example<ShoppingList> example = Example.of(sl);
+                optional = shoppingListRepository.findOne(example);
+                i++;
+            }
+            while(optional.isPresent());
+            return Optional.of(shoppingListRepository.save(sl));
+        }
+        return Optional.empty();
+    }
+
 }

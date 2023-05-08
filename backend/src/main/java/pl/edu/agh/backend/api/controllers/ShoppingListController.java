@@ -62,4 +62,10 @@ public class ShoppingListController {
         return shoppingList.map(e -> new ResponseEntity<>(HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @PutMapping("/duplicate")
+    public ResponseEntity<ShoppingList> duplicateShoppingList(@RequestParam Integer listID){
+        Optional<ShoppingList> duplicateList = shoppingListService.duplicateShoppingList(listID);
+        return duplicateList.map(e -> new ResponseEntity<>(e, HttpStatus.CREATED)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE));
+    }
+
 }
