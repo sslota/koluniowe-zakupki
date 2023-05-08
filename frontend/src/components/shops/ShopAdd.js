@@ -1,7 +1,40 @@
-import React from "react";
+import { React,useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ShopAdd() {
-  const handleSubmit = (event) => {};
+  const [name, setName] = useState("");
+  // const [location, setLocation] = useState("");
+  const navigate = useNavigate();
+
+  const addShop = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    const id = localStorage.getItem("id");
+    fetch(`http://localhost:8080/shops`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name: name,
+        userID: id,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        navigate("/shop");
+        return response.json();
+      })
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+      });
+  };
 
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -9,7 +42,7 @@ function ShopAdd() {
         className="space-y-6"
         action="#"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={addShop}
       >
         <div>
           <label
@@ -25,12 +58,14 @@ function ShopAdd() {
               type="text"
               autoComplete="name"
               required
+              value={name}
+              onChange={(event) => setName(event.target.value)}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <div className="flex items-center justify-between">
             <label
               htmlFor="tags"
@@ -48,9 +83,9 @@ function ShopAdd() {
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <div className="flex items-center justify-between">
             <label
               htmlFor="location"
@@ -65,10 +100,11 @@ function ShopAdd() {
               name="location"
               type="text"
               required
+              onChange={(event) => setLocation(event.target.value)}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
-        </div>
+        </div> */}
 
         <a href="/shop" className=" flex space-x-4">
           <button

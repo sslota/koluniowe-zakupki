@@ -1,19 +1,49 @@
-import React from "react";
+import {React, useState, useEffect} from "react";
 import DropdownMenu from "../DropdownMenu";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 function Shops() {
-  const Shops = [
-    { id: 1, name: "Shop1", blacklisted: false },
-    { id: 2, name: "Shop2", blacklisted: false },
-    { id: 3, name: "Shop3", blacklisted: false },
-  ];
+  const [shops, setShops] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    // const id = localStorage.getItem("id");
+    async function fetchShops() {
+      const response = await fetch(
+        `http://localhost:8080/shops`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setShops(data);
+    }
+    fetchShops().then((response) => {
+      return response;
+    });
+  }, []);
+
+  const deleteShop = async (id) => {
+    if (window.confirm("Confirm to delete this shop")) {
+      const token = localStorage.getItem("token");
+      await fetch(`http://localhost:8080/shops?shopID=${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const updatedShops = shops.filter((shop) => shop.id !== id);
+      setShops(updatedShops);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
       <div className="grid gap-10 w-3/4 max-w-screen-md">
-        {Shops.map((shop) => (
+        {shops.map((shop) => (
           <div
             key={shop.id}
             className="bg-white p-5 rounded-md flex items-center justify-between space-x-10"
@@ -23,6 +53,7 @@ function Shops() {
               <TrashIcon
                 className="text-gray-600 h-8 w-8 cursor-pointer"
                 title="Delete"
+                onClick={() => deleteShop(shop.id)}
               />
             </div>
           </div>

@@ -4,6 +4,8 @@ import {
   MapIcon,
   ShareIcon,
   PencilSquareIcon,
+  PlusIcon,
+  MinusIcon,
 } from "@heroicons/react/24/outline";
 import DropdownMenu from "../../DropdownMenu";
 import { useEffect, useState } from "react";
@@ -12,6 +14,30 @@ function SpecificList() {
   const { id, name } = useParams();
   const [productsInList, setProductsInList] = useState([]);
 
+  const updateProductQuantity = async (id,value,productID)=>{
+    const token = localStorage.getItem("token");
+    await fetch(
+      `http://localhost:8080/shopping-lists/update-quantity`,
+       {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          listID: id,
+          productID: productID,
+          quantity: value,
+        }),
+      }
+    );
+
+    const updatedProductsInList = productsInList.map(
+      (product) => product.ID === productID ? {...product, quantity: value} : product
+    );
+    setProductsInList(updatedProductsInList);
+  };
+  
   const deleteProductFromList = async (id, productID) => {
     if (window.confirm("Confirm to delete")) {
       const token = localStorage.getItem("token");
@@ -82,7 +108,19 @@ function SpecificList() {
             className="bg-white p-5 rounded-md flex items-center justify-center justify-between"
           >
             <div className="text-gray-800 text-2xl">{product.name}</div>
-            <div className="text-gray-800 text-2xl"> {product.quantity} </div>
+            <div className="flex items-center justify-center justify-between gap-3">
+              <div className="w-5">
+                {product.quantity > 1 &&
+                  <MinusIcon className="text-gray-600 h-5 w-5 cursor-pointer"
+                  onClick={()=>updateProductQuantity(id,product.quantity-1,product.ID)}/>
+                }
+              </div>   
+              <div className="text-gray-800 text-2xl "> {product.quantity} </div>
+              <div className="w-5">
+                <PlusIcon className="text-gray-600 h-5 w-5 cursor-pointer"
+                 onClick={()=>updateProductQuantity(id,product.quantity+1,product.ID)}/>
+              </div>
+            </div>
             <div className="flex items-center space-x-2">
               <TrashIcon
                 className="text-gray-600 h-8 w-8 cursor-pointer"
