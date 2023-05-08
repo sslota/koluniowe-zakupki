@@ -13,7 +13,16 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ListProductRepository listProductRepository;
 
-    public List<Product> getProducts(Integer userID){ return productRepository.findProducts(userID); }
+    public List<Product> getProducts(Integer userID, Integer listID){
+        List<Product> toChoose = productRepository.findProducts(userID);
+        List<ListPosition> chosen = productRepository.findProductsiInList(listID);
+        return toChoose.stream().filter(e->{
+            for(ListPosition lp:chosen){
+                if (e.getName().equals(lp.name())) return false;
+            }
+            return true;
+        }).toList();
+    }
     public Product addProduct(Product product){
         Example<Product> example = Example.of(product);
         Optional<Product> productInDb = productRepository.findOne(example);
