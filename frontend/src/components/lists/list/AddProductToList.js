@@ -7,17 +7,21 @@ const AddProductToList = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id, name } = useParams();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const userID = localStorage.getItem("id");
     async function fetchProducts() {
       try {
-        const response = await fetch("http://localhost:8080/products", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:8080/products?userID=${userID}&listID=${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         setProducts(data);
       } catch (error) {
@@ -27,7 +31,7 @@ const AddProductToList = () => {
     fetchProducts().then((response) => {
       return response;
     });
-  }, []);
+  }, [id]);
 
   const addPositionToList = async (event) => {
     event.preventDefault();
@@ -52,7 +56,7 @@ const AddProductToList = () => {
       });
       if (response.ok) {
         console.log("added");
-        navigate(`/list/${id}`);
+        navigate(`/list/${id}/${name}`);
       } else {
         console.error("failed");
       }
@@ -131,7 +135,7 @@ const AddProductToList = () => {
           </div>
         </div>
 
-        <a href={`/list/${id}`} className=" flex space-x-4">
+        <a href={`/list/${id}/${name}`} className=" flex space-x-4">
           <button
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

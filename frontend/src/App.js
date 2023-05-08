@@ -27,12 +27,18 @@ function App() {
       <Route path="/*" element={<AuthGuard element={Lists} />} />
       <Route path="/list" element={<AuthGuard element={Lists} />} />
       <Route path="/list-add" element={<AuthGuard element={ListAdd} />} />
-      <Route path="/list/:id/route" element={<AuthGuard element={Map} />} />
       <Route
-        path="/list/:id/add-product"
+        path="/list/:id/:name/route"
+        element={<AuthGuard element={Map} />}
+      />
+      <Route
+        path="/list/:id/:name/add-product"
         element={<AuthGuard element={AddProductToList} />}
       />
-      <Route path="/list/:id" element={<AuthGuard element={SpecificList} />} />
+      <Route
+        path="/list/:id/:name"
+        element={<AuthGuard element={SpecificList} />}
+      />
       <Route path="/profile" element={<AuthGuard element={Profile} />} />
       <Route path="/friend" element={<AuthGuard element={Friends} />} />
       <Route path="/friend-add" element={<AuthGuard element={FriendAdd} />} />

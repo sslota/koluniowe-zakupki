@@ -55,7 +55,7 @@ function ListAdd() {
             <input
               id="name"
               name="name"
-              type="name"
+              type="text"
               autoComplete="name"
               required
               value={name}

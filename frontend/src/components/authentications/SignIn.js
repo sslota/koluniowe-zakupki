@@ -65,6 +65,7 @@ function SignIn() {
                 <input
                   id="username"
                   name="username"
+                  type="text"
                   autoComplete="username"
                   required
                   value={username}

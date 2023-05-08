@@ -74,7 +74,10 @@ function Lists() {
             key={list.id}
             className="bg-white p-5 rounded-md flex items-center justify-between space-x-10"
           >
-            <Link to={`/list/${list.id}`} className="text-gray-800 text-2xl">
+            <Link
+              to={`/list/${list.id}/${list.name}`}
+              className="text-gray-800 text-2xl"
+            >
               {list.name}
             </Link>
             <div className="flex items-center space-x-2">

@@ -1,14 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DropdownMenu from "../DropdownMenu";
 import { TrashIcon } from "@heroicons/react/24/outline";
 
 function Friends() {
-  const Friends = [
-    { id: 1, name: "Friend1" },
-    { id: 2, name: "Friend2" },
-    { id: 3, name: "Friend3" },
-  ];
+  const [friends, setFriends] = useState([]);
 
   const Groups = [
     { id: 1, name: "Group1", friends: ["friend1", "friend2"] },
@@ -16,15 +12,35 @@ function Friends() {
     { id: 3, name: "Group3", friends: ["friend3", "friend1"] },
   ];
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const id = localStorage.getItem("id");
+    async function fetchFriends() {
+      const response = await fetch(
+        `http://localhost:8080/socials/friends?userId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setFriends(data);
+    }
+    fetchFriends().then((response) => {
+      return response;
+    });
+  }, []);
+
   return (
     <div className="flex items-center justify-center space-x-10 mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
       <div className="grid place-items-center gap-10 w-1/2 max-w-screen-md">
-        {Friends.map((friend) => (
+        {friends.map((friend) => (
           <div
             key={friend.id}
             className="bg-white p-5 rounded-md flex items-center justify-between space-x-10 w-3/4"
           >
-            <div className="text-gray-800 text-2xl">{friend.name}</div>
+            <div className="text-gray-800 text-2xl">{friend.username}</div>
             <div className="flex items-center space-x-2">
               <TrashIcon
                 className="text-gray-600 h-8 w-8 cursor-pointer"

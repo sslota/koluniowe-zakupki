@@ -72,7 +72,7 @@ function SignUp() {
                 <input
                   id="username"
                   name="username"
-                  type="username"
+                  type="text"
                   autoComplete="username"
                   required
                   value={username}
