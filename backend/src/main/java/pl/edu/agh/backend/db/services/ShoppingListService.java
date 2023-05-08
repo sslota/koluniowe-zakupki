@@ -2,11 +2,11 @@ package pl.edu.agh.backend.db.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
+import pl.edu.agh.backend.db.models.records.ListPosition;
 import pl.edu.agh.backend.db.ports.*;
 import pl.edu.agh.backend.db.models.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -31,15 +31,15 @@ public class ShoppingListService {
         Optional<SharedList> sharedListInDb = sharedListRepository.findOne(example);
         return sharedListInDb.orElseGet(() -> sharedListRepository.save(sharedList));
     }
-    public ListProduct addPositionToList(ListProduct listProduct){
-        Example<ListProduct> example = Example.of(listProduct);
-        Optional<ListProduct> listProductInDb = listProductRepository.findOne(example);
-        return listProductInDb.orElseGet(() -> listProductRepository.save(listProduct));
+    public PositionOnList addPositionToList(PositionOnList positionOnList){
+        Example<PositionOnList> example = Example.of(positionOnList);
+        Optional<PositionOnList> listProductInDb = listProductRepository.findOne(example);
+        return listProductInDb.orElseGet(() -> listProductRepository.save(positionOnList));
     }
-    public ListProduct changeProductQuantity(ListProduct updateQuantityRequest){
-        Example<ListProduct> example = Example.of(ListProduct.builder().listID(updateQuantityRequest.getListID()).productID(updateQuantityRequest.getProductID()).build());
-        Optional<ListProduct> position = listProductRepository.findOne(example);
-        ListProduct updatedPosition;
+    public PositionOnList changeProductQuantity(PositionOnList updateQuantityRequest){
+        Example<PositionOnList> example = Example.of(PositionOnList.builder().listID(updateQuantityRequest.getListID()).productID(updateQuantityRequest.getProductID()).build());
+        Optional<PositionOnList> position = listProductRepository.findOne(example);
+        PositionOnList updatedPosition;
         if(position.isPresent()){
             updatedPosition=position.get();
             updatedPosition.setQuantity(updateQuantityRequest.getQuantity());
@@ -47,9 +47,9 @@ public class ShoppingListService {
         else updatedPosition = updateQuantityRequest;
         return listProductRepository.save(updatedPosition);
     }
-    public Optional<ListProduct> removeProductFromList(ListProduct listProduct){
-        Example<ListProduct> example = Example.of(listProduct);
-        Optional<ListProduct> product = listProductRepository.findOne(example);
+    public Optional<PositionOnList> removeProductFromList(PositionOnList positionOnList){
+        Example<PositionOnList> example = Example.of(positionOnList);
+        Optional<PositionOnList> product = listProductRepository.findOne(example);
         product.ifPresent(listProductRepository::delete);
         return product;
     }

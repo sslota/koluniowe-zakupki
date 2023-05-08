@@ -2,10 +2,9 @@ package pl.edu.agh.backend.db.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
-import pl.edu.agh.backend.db.models.Friend;
-import pl.edu.agh.backend.db.models.Shop;
-import pl.edu.agh.backend.db.models.User;
-import pl.edu.agh.backend.db.ports.FriendRepository;
+import pl.edu.agh.backend.db.models.records.Friend;
+import pl.edu.agh.backend.db.models.Friendship;
+import pl.edu.agh.backend.db.ports.FriendshipRepository;
 import pl.edu.agh.backend.db.ports.GroupRepository;
 import pl.edu.agh.backend.db.ports.UserRepository;
 
@@ -14,27 +13,34 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 public class SocialsService {
-    private final FriendRepository friendRepository;
+    private final FriendshipRepository friendshipRepository;
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
 
 
-    public Friend addFriend(Friend friend){
-        Example<Friend> example = Example.of(friend);
-        Optional<Friend> friendInDb = friendRepository.findOne(example);
-        return friendInDb.orElseGet(() -> friendRepository.save(friend));
+    public Friendship addFriend(Friendship friendship){
+        Example<Friendship> example = Example.of(friendship);
+        Optional<Friendship> friendInDb = friendshipRepository.findOne(example);
+        return friendInDb.orElseGet(() -> friendshipRepository.save(friendship));
     }
 
-    public Optional<Friend> findFriend(Friend friend){
-        Example<Friend> example = Example.of(friend);
-        return friendRepository.findOne(example);
+    public Optional<Friendship> findFriend(Friendship friendship){
+        Example<Friendship> example = Example.of(friendship);
+        return friendshipRepository.findOne(example);
     }
 
-    public List<User> findUserFriends(Integer userID){
-        return friendRepository.findFriends(userID);
+    public List<Friend> findUserFriends(Integer userID){
+        return friendshipRepository.findFriends(userID);
     }
 
-    public List<User> findUsersLike(String username){
+    public List<Friend> findUsersLike(String username){
         return userRepository.findUsersWithUsername(username);
+    }
+
+    public Optional<Friendship> removeFromFriendList(Integer userID, Integer friendID){
+        Example<Friendship> example = Example.of(Friendship.builder().userID(userID).friendID(friendID).build());
+        Optional<Friendship> friendship = friendshipRepository.findOne(example);
+        friendship.ifPresent(friendshipRepository::delete);
+        return friendship;
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.backend.api.models.*;
+import pl.edu.agh.backend.db.models.records.ListPosition;
 import pl.edu.agh.backend.db.services.ShoppingListService;
 import pl.edu.agh.backend.db.models.*;
 
@@ -33,9 +34,9 @@ public class ShoppingListController {
         return new ResponseEntity<>(shoppingList, HttpStatus.CREATED);
     }
     @PostMapping("/add")
-    public ResponseEntity<ListProduct> addPositionToList(@RequestBody ProductsToListRequest addProductsToListRequest){
-        ListProduct listProduct = shoppingListService.addPositionToList( addProductsToListRequest.createListProduct() );
-        return new ResponseEntity<>(listProduct, HttpStatus.OK);
+    public ResponseEntity<PositionOnList> addPositionToList(@RequestBody ProductsToListRequest addProductsToListRequest){
+        PositionOnList positionOnList = shoppingListService.addPositionToList( addProductsToListRequest.createListProduct() );
+        return new ResponseEntity<>(positionOnList, HttpStatus.OK);
     }
     @PostMapping("/share")
     public ResponseEntity<SharedList> shareListToUser(@RequestBody ShareListRequest shareListRequest){
@@ -44,14 +45,14 @@ public class ShoppingListController {
     }
 
     @PutMapping("/update-quantity")
-    public ResponseEntity<ListProduct> changeProductQuantityInList(@RequestBody ProductsToListRequest updateQuantityRequest){
-        ListProduct updatedPosition = shoppingListService.changeProductQuantity(updateQuantityRequest.createListProduct());
+    public ResponseEntity<PositionOnList> changeProductQuantityInList(@RequestBody ProductsToListRequest updateQuantityRequest){
+        PositionOnList updatedPosition = shoppingListService.changeProductQuantity(updateQuantityRequest.createListProduct());
         return new ResponseEntity<>(updatedPosition, HttpStatus.OK);
     }
 
     @DeleteMapping("/remove-product-from-list")
     public ResponseEntity<Object> removeProductFromList(@RequestParam Integer listID, @RequestParam Integer productID){
-        Optional<ListProduct> listProduct =  shoppingListService.removeProductFromList( ListProduct.builder().listID(listID).productID(productID).build() );
+        Optional<PositionOnList> listProduct =  shoppingListService.removeProductFromList( PositionOnList.builder().listID(listID).productID(productID).build() );
         return listProduct.map(e -> new ResponseEntity<>(HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

@@ -5,12 +5,12 @@ import lombok.*;
 
 
 @Entity
-@Table(name = "ListProducts")
+@Table(name = "PositionOnLists")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListProduct {
+public class PositionOnList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;

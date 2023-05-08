@@ -2,7 +2,6 @@ package pl.edu.agh.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.edu.agh.backend.db.models.SharedList;
 import pl.edu.agh.backend.db.ports.*;
 import pl.edu.agh.backend.db.services.*;
 
@@ -19,10 +18,10 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public SocialsService socialsService(FriendRepository friendRepository,
+    public SocialsService socialsService(FriendshipRepository friendshipRepository,
                                          GroupRepository groupRepository,
                                          UserRepository userRepository) {
-        return new SocialsService(friendRepository, groupRepository, userRepository);
+        return new SocialsService(friendshipRepository, groupRepository, userRepository);
     }
 
     @Bean

@@ -2,6 +2,7 @@ package pl.edu.agh.backend.db.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
+import pl.edu.agh.backend.db.models.records.ListPosition;
 import pl.edu.agh.backend.db.ports.*;
 import pl.edu.agh.backend.db.models.*;
 
