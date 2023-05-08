@@ -26,6 +26,20 @@ function Products() {
     });
   }, []);
 
+  const deleteProduct = async (id) => {
+    if (window.confirm("Confirm to delete this product")) {
+      const token = localStorage.getItem("token");
+      await fetch(`http://localhost:8080/products?productID=${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const updatedProducts = products.filter((product) => product.id !== id);
+      setProducts(updatedProducts);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
       <div className="grid gap-10 w-3/4 max-w-screen-md">
@@ -39,6 +53,7 @@ function Products() {
               <TrashIcon
                 className="text-gray-600 h-8 w-8 cursor-pointer"
                 title="Delete"
+                onClick={() => deleteProduct(product.id)}
               />
             </div>
           </div>
