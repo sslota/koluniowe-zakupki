@@ -1,19 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DropdownMenu from "../DropdownMenu";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 function Products() {
-  const Products = [
-    { id: 1, name: "Product1" },
-    { id: 2, name: "Product2" },
-    { id: 3, name: "Product3" },
-  ];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const id = localStorage.getItem("id");
+    async function fetchProducts() {
+      const response = await fetch(
+        `http://localhost:8080/products?userID=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setProducts(data);
+    }
+    fetchProducts().then((response) => {
+      return response;
+    });
+  }, []);
 
   return (
     <div className="flex items-center justify-center mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
       <div className="grid gap-10 w-3/4 max-w-screen-md">
-        {Products.map((product) => (
+        {products.map((product) => (
           <div
             key={product.id}
             className="bg-white p-5 rounded-md flex items-center justify-between space-x-10"

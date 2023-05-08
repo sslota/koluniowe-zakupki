@@ -5,7 +5,7 @@ function ListAdd() {
   const [name, setName] = useState("");
   const history = useNavigate();
 
-  const handleSubmit = (event) => {
+  const addList = (event) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
     const id = localStorage.getItem("id");
@@ -38,12 +38,7 @@ function ListAdd() {
 
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form
-        className="space-y-6"
-        action="#"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
+      <form className="space-y-6" action="#" method="POST" onSubmit={addList}>
         <div>
           <label
             htmlFor="name"

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DropdownMenu from "../DropdownMenu";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import { UserIcon } from "@heroicons/react/24/outline";
 
 function Friends() {
   const [friends, setFriends] = useState([]);
@@ -54,20 +55,27 @@ function Friends() {
 
   return (
     <div className="flex items-center justify-center space-x-10 mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
-      <div className="grid place-items-center gap-10 w-1/2 max-w-screen-md">
+      <div className="grid grid-cols-2 place-items-center gap-10 w-1/2 max-w-screen-md">
         {friends.map((friend) => (
           <div
             key={friend.ID}
-            className="bg-white p-5 rounded-md flex items-center justify-between space-x-10 w-3/4"
+            className="w-3/5 max-w-2xl flex items-start justify-between rounded-xl border border-gray-100 p-4 bg-white shadow-xl sm:p-6 lg:p-8 overflow-hidden relative"
           >
-            <div className="text-gray-800 text-2xl">{friend.username}</div>
-            <div className="flex items-center space-x-2">
+            <div className="pt-4 text-gray-600">
+              <UserIcon className="font-bold h-8 w-8 sm:h-12 sm:w-12" />
+
+              <h3 className="mt-4 text-lg font-bold text-gray-800 sm:text-xl">
+                {friend.username}
+              </h3>
+            </div>
+
+            <span className="absolute right-6 top-6 rounded-full bg-red-400 px-3 py-2 cursor-pointer">
               <TrashIcon
-                className="text-gray-600 h-8 w-8 cursor-pointer"
-                title="Delete"
+                className="text-gray-600 h-6 w-6"
+                title="Remove"
                 onClick={() => removeFriend(friend.ID)}
               />
-            </div>
+            </span>
           </div>
         ))}
         <Link className="fixed bottom-24" to="/friend-add">
