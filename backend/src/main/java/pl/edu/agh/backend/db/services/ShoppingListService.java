@@ -26,6 +26,17 @@ public class ShoppingListService {
         Optional<ShoppingList> shoppingListInDb = shoppingListRepository.findOne(example);
         return shoppingListInDb.orElseGet(() -> shoppingListRepository.save(shoppingList));
     }
+
+    public ShoppingList changeNameOfList(Integer listID, ShoppingList updateListRequest) {
+        Optional<ShoppingList> optional = shoppingListRepository.findById(listID);
+        if (optional.isPresent()) {
+            ShoppingList shoppingList = optional.get();
+            shoppingList.setName(updateListRequest.getName());
+            return shoppingListRepository.save(shoppingList);
+        } else {
+            throw new IllegalArgumentException("ShoppingList not found with id " + listID);
+        }
+    }
     public SharedList shareList(SharedList sharedList) {
         Example<SharedList> example = Example.of(sharedList);
         Optional<SharedList> sharedListInDb = sharedListRepository.findOne(example);

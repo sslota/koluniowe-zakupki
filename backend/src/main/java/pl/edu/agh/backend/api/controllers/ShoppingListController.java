@@ -28,6 +28,12 @@ public class ShoppingListController {
         return shoppingListService.getShoppingListDetails(listID);
     }
 
+    @PutMapping("/update-name/list={listID}")
+    public ResponseEntity<ShoppingList> changeNameOfList(@PathVariable Integer listID, @RequestBody CreateShoppingListRequest updateNameRequest){
+        ShoppingList updatedList = shoppingListService.changeNameOfList(listID, updateNameRequest.createShoppingList());
+        return new ResponseEntity<>(updatedList, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<ShoppingList> createShoppingList(@RequestBody CreateShoppingListRequest createShoppingListRequest) {
         ShoppingList shoppingList = shoppingListService.addShoppingList( createShoppingListRequest.createShoppingList() );
@@ -62,7 +68,7 @@ public class ShoppingListController {
         return shoppingList.map(e -> new ResponseEntity<>(HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping("/duplicate")
+    @PostMapping("/duplicate")
     public ResponseEntity<ShoppingList> duplicateShoppingList(@RequestParam Integer listID){
         Optional<ShoppingList> duplicateList = shoppingListService.duplicateShoppingList(listID);
         return duplicateList.map(e -> new ResponseEntity<>(e, HttpStatus.CREATED)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE));
