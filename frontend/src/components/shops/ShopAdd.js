@@ -1,9 +1,8 @@
-import { React,useState } from "react";
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ShopAdd() {
   const [name, setName] = useState("");
-  // const [location, setLocation] = useState("");
   const navigate = useNavigate();
 
   const addShop = (event) => {
@@ -38,12 +37,7 @@ function ShopAdd() {
 
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form
-        className="space-y-6"
-        action="#"
-        method="POST"
-        onSubmit={addShop}
-      >
+      <form className="space-y-6" action="#" method="POST" onSubmit={addShop}>
         <div>
           <label
             htmlFor="name"
@@ -64,47 +58,6 @@ function ShopAdd() {
             />
           </div>
         </div>
-
-        {/* <div>
-          <div className="flex items-center justify-between">
-            <label
-              htmlFor="tags"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Tags
-            </label>
-          </div>
-          <div className="mt-2">
-            <input
-              id="tags"
-              name="tags"
-              type="text"
-              required
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div> */}
-
-        {/* <div>
-          <div className="flex items-center justify-between">
-            <label
-              htmlFor="location"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Location
-            </label>
-          </div>
-          <div className="mt-2">
-            <input
-              id="location"
-              name="location"
-              type="text"
-              required
-              onChange={(event) => setLocation(event.target.value)}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div> */}
 
         <a href="/shop" className=" flex space-x-4">
           <button

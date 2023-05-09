@@ -1,6 +1,6 @@
-import {React, useState, useEffect} from "react";
+import { React, useState, useEffect } from "react";
 import DropdownMenu from "../DropdownMenu";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, BuildingStorefrontIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 function Shops() {
@@ -8,16 +8,12 @@ function Shops() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // const id = localStorage.getItem("id");
     async function fetchShops() {
-      const response = await fetch(
-        `http://localhost:8080/shops`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:8080/shops`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
       setShops(data);
     }
@@ -42,20 +38,34 @@ function Shops() {
 
   return (
     <div className="flex items-center justify-center mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
-      <div className="grid gap-10 w-3/4 max-w-screen-md">
+      <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 place-items-center gap-10 w-3/4 max-w-screen-md">
         {shops.map((shop) => (
           <div
-            key={shop.id}
-            className="bg-white p-5 rounded-md flex items-center justify-between space-x-10"
+            key={shop.ID}
+            className="w-4/5 max-w-2xl flex items-start justify-between rounded-xl border border-gray-100 p-4 bg-white shadow-xl sm:p-6 lg:p-8 overflow-hidden relative"
           >
-            <div className="text-gray-800 text-2xl">{shop.name}</div>
-            <div className="flex items-center space-x-2">
+            <div className="pt-4 text-gray-600 px-1">
+              <BuildingStorefrontIcon className="h-8 w-8 sm:h-12 sm:w-12" />
+
+              <h3 className="mt-4 text-lg font-bold text-gray-800 sm:text-xl">
+                {shop.name}
+              </h3>
+
+              <p className="mt-2 hidden font-semibold text-sm sm:block">
+                Localisation
+              </p>
+            </div>
+
+            <span className="absolute -bottom-16 right-12 px-20 h-32 w-32 bg-green-500 opacity-50 rounded-full" />
+            <span className="absolute -bottom-14 -right-12 px-12 h-24 w-32 bg-green-500 opacity-50 rounded-full" />
+
+            <span className="absolute right-6 top-6 rounded-full bg-red-400 px-3 py-2 cursor-pointer">
               <TrashIcon
-                className="text-gray-600 h-8 w-8 cursor-pointer"
-                title="Delete"
+                className="text-gray-600 h-6 w-6"
+                title="Remove"
                 onClick={() => deleteShop(shop.id)}
               />
-            </div>
+            </span>
           </div>
         ))}
       </div>

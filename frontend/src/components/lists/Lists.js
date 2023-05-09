@@ -28,6 +28,22 @@ function Lists() {
     }
   };
 
+  const duplicateList = async (id) => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      `http://localhost:8080/shopping-lists/duplicate?listID=${id}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    const updatedListData = [...listsData, { ...data, state: false }];
+    setLists(updatedListData);
+  };
+
   const chooseFavourite = (id) => {
     const updatedListData = listsData.map((list) => {
       if (list.id === id) {
@@ -84,17 +100,18 @@ function Lists() {
               <DocumentDuplicateIcon
                 className="text-gray-600 h-8 w-8 cursor-pointer"
                 title="Duplicate"
+                onClick={() => duplicateList(list.id)}
               />
               {list.state ? (
                 <HeartSolidIcon
                   className="text-red-500 h-8 w-8 cursor-pointer"
-                  title="remove from favourite"
+                  title="Unmark as favourite"
                   onClick={() => chooseFavourite(list.id)}
                 />
               ) : (
                 <HeartOutlineIcon
                   className="text-gray-600 h-8 w-8 cursor-pointer"
-                  title="add to favourite"
+                  title="Mark as favourite"
                   onClick={() => chooseFavourite(list.id)}
                 />
               )}
