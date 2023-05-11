@@ -2,6 +2,7 @@ package pl.edu.agh.backend.db.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
+import pl.edu.agh.backend.api.models.RenameShopRequest;
 import pl.edu.agh.backend.db.models.records.ListPosition;
 import pl.edu.agh.backend.db.ports.*;
 import pl.edu.agh.backend.db.models.*;
@@ -27,14 +28,14 @@ public class ShoppingListService {
         return shoppingListInDb.orElseGet(() -> shoppingListRepository.save(shoppingList));
     }
 
-    public ShoppingList changeNameOfList(Integer listID, ShoppingList updateListRequest) {
-        Optional<ShoppingList> optional = shoppingListRepository.findById(listID);
+    public ShoppingList changeNameOfList(RenameShopRequest renameShopRequest) {
+        Optional<ShoppingList> optional = shoppingListRepository.findById(renameShopRequest.listID());
         if (optional.isPresent()) {
             ShoppingList shoppingList = optional.get();
-            shoppingList.setName(updateListRequest.getName());
+            shoppingList.setName(renameShopRequest.name());
             return shoppingListRepository.save(shoppingList);
         } else {
-            throw new IllegalArgumentException("ShoppingList not found with id " + listID);
+            throw new IllegalArgumentException("ShoppingList not found with id " + renameShopRequest.listID());
         }
     }
     public SharedList shareList(SharedList sharedList) {

@@ -15,6 +15,7 @@ public class Shop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
     private String name;
+    private String location;
     @Nullable
     private Integer userID;
 }

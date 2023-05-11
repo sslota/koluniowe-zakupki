@@ -28,9 +28,9 @@ public class ShoppingListController {
         return shoppingListService.getShoppingListDetails(listID);
     }
 
-    @PutMapping("/update-name/list={listID}")
-    public ResponseEntity<ShoppingList> changeNameOfList(@PathVariable Integer listID, @RequestBody CreateShoppingListRequest updateNameRequest){
-        ShoppingList updatedList = shoppingListService.changeNameOfList(listID, updateNameRequest.createShoppingList());
+    @PutMapping("/update-name")
+    public ResponseEntity<ShoppingList> changeNameOfList(@RequestBody RenameShopRequest renameShopRequest){
+        ShoppingList updatedList = shoppingListService.changeNameOfList(renameShopRequest);
         return new ResponseEntity<>(updatedList, HttpStatus.OK);
     }
 
