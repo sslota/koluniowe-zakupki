@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 const AddProductToList = () => {
@@ -133,20 +133,20 @@ const AddProductToList = () => {
           </div>
         </div>
 
-        <a href={`/list/${id}/${name}`} className=" flex space-x-4">
+        <div className=" flex space-x-4">
           <button
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add
           </button>
-          <button
-            type="button"
+          <Link
+            to={`/list/${id}/${name}`}
             className="flex w-full justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Cancel
-          </button>
-        </a>
+          </Link>
+        </div>
       </form>
     </div>
   );

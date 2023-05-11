@@ -1,7 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function BlacklistAdd() {
+  const navigate = useNavigate();
   const Shops = [
     { id: 1, name: "Shop1", blacklisted: false },
     { id: 2, name: "Shop2", blacklisted: false },
@@ -10,7 +12,10 @@ function BlacklistAdd() {
 
   const [selectedShop, setSelectedShop] = useState(null);
 
-  const handleSubmit = (event) => {};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate(`/blacklist`);
+  };
 
   const handleShopSelect = (shop) => {
     setSelectedShop(shop);
@@ -57,20 +62,20 @@ function BlacklistAdd() {
           </div>
         </div>
 
-        <a href="/blacklist" className=" flex space-x-4">
+        <div className=" flex space-x-4">
           <button
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add
           </button>
-          <button
-            type="button"
+          <Link
+            to={`/blacklist`}
             className="flex w-full justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Cancel
-          </button>
-        </a>
+          </Link>
+        </div>
       </form>
     </div>
   );

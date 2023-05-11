@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import React from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const navigation = [
   {
@@ -48,7 +48,7 @@ function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <a href="/" className="flex flex-shrink-0 items-center">
+                  <Link to={`/`} className="flex flex-shrink-0 items-center">
                     <img
                       className="block h-9 w-auto lg:hidden"
                       src="/shopping-list.png"
@@ -59,14 +59,14 @@ function Navbar() {
                       src="/shopping-list.png"
                       alt="shopping list logo"
                     />
-                  </a>
+                  </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.state
                             ? "bg-gray-800 text-white"
@@ -75,7 +75,7 @@ function Navbar() {
                         )}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -104,22 +104,22 @@ function Navbar() {
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="/profile"
+                          <Link
+                            to={`/profile`}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
                             Your Profile
-                          </a>
+                          </Link>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) =>
                           localStorage.getItem("token") ? (
-                            <a
-                              href="/sign-in"
+                            <Link
+                              to={`/sign-in`}
                               onClick={handleSignOut}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
@@ -127,17 +127,17 @@ function Navbar() {
                               )}
                             >
                               Sign out
-                            </a>
+                            </Link>
                           ) : (
-                            <a
-                              href="/sign-in"
+                            <Link
+                              to={`/sign-in`}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Sign in
-                            </a>
+                            </Link>
                           )
                         }
                       </Menu.Item>
@@ -153,8 +153,8 @@ function Navbar() {
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as="a"
-                  href={item.href}
+                  as="Link"
+                  to={item.href}
                   className={classNames(
                     item.state
                       ? "bg-gray-800 text-white"

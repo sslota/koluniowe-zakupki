@@ -198,7 +198,6 @@ function SpecificList() {
             </div>
             <div className="flex justify-end">
               <XMarkIcon
-                type="button"
                 className="absolute top-3 right-3 w-8 h-8 text-gray-600 cursor-pointer"
                 onClick={() => setShowEditListName(false)}
               />
