@@ -35,4 +35,13 @@ public class DatabaseConfig {
         return new ShopService(shopRepository);
     }
 
+    @Bean
+    public TagService tagService(TagRepository tagRepository) {
+        return new TagService(tagRepository);
+    }
+    @Bean
+    public RoutingService routingService(ShopService shopService, TagService tagService) {
+        return new RoutingService(shopService, tagService);
+    }
+
 }
