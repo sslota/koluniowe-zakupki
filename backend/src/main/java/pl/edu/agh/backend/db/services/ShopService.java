@@ -24,7 +24,8 @@ public class ShopService {
         if(shopInDb.isPresent()){
             modifiedShop = shopInDb.get();
             modifiedShop.setName(shop.getName());
-            modifiedShop.setLocation(shop.getLocation());
+            modifiedShop.setLatitude(shop.getLatitude());
+            modifiedShop.setLongitude(shop.getLongitude());
             modifiedShop.setUserID(shop.getUserID());
             //open for future extensions
         }

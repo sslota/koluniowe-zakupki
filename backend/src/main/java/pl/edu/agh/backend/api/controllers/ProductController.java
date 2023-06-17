@@ -22,7 +22,7 @@ public class ProductController {
     public List<Product> getProductsAvailableToUser(@RequestParam Integer userID,
                                                     @RequestParam(required = false) Integer listID) {
         if(listID==null) return productService.getUserProducts(userID);
-        return productService.getProductsAvaliableForList(userID, listID);
+        return productService.getProductsAvailableForList(userID, listID);
     }
 
     @PostMapping

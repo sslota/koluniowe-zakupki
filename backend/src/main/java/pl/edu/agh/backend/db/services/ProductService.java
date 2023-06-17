@@ -14,7 +14,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ListProductRepository listProductRepository;
 
-    public List<Product> getProductsAvaliableForList(Integer userID, Integer listID){
+    public List<Product> getProductsAvailableForList(Integer userID, Integer listID){
         List<Product> toChoose = productRepository.findUserAndDefaultProducts(userID);
         List<ListPosition> chosen = productRepository.findProductsiInList(listID);
         return toChoose.stream().filter(e->{
