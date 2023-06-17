@@ -2,18 +2,16 @@ import { Fragment } from "react";
 import React from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const navigation = [
   {
     name: "Koluniowe Zakupki",
     href: "/",
-    state: window.location.pathname === "/",
   },
   {
     name: "About",
     href: "/about-us",
-    state: window.location.pathname === "/about-us",
   },
 ];
 
@@ -23,6 +21,7 @@ function classNames(...classes) {
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
@@ -32,7 +31,7 @@ function Navbar() {
   };
 
   return (
-    <Disclosure as="nav" className="bg-gray-500">
+    <Disclosure as="nav" className="bg-gray-500 sticky top-0 z-50">
       {({ open }) => (
         <>
           <div className="position:fixed mx-auto max-w-full px-2 sm:px-6 lg:px-8 z-index:10">
@@ -68,7 +67,7 @@ function Navbar() {
                         key={item.name}
                         to={item.href}
                         className={classNames(
-                          item.state
+                          location.pathname === item.href
                             ? "bg-gray-800 text-white"
                             : "text-gray-200 hover:bg-gray-600 hover:text-white",
                           "rounded-md px-3 py-2 text-sm font-medium"
@@ -156,7 +155,7 @@ function Navbar() {
                   as="Link"
                   to={item.href}
                   className={classNames(
-                    item.state
+                      location.pathname === item.href
                       ? "bg-gray-800 text-white"
                       : "text-gray-300 hover:bg-gray-700 hover:text-white",
                     "block rounded-md px-3 py-2 text-base font-medium"
