@@ -2,4 +2,3 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-.leaflet-container{height: 100vh;}
