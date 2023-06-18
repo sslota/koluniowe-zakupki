@@ -13,8 +13,8 @@ import java.util.List;
 public class RoutingController {
     private final RoutingService routingService;
 
-    @GetMapping("/latitude={latitude}/longitude={longitude}/listID={listID}")
-    public List<LocationTags> getRoute(@PathVariable float latitude, @PathVariable float longitude, @PathVariable Integer listID){
+    @GetMapping("/listID={listID}/latitude={latitude}/longitude={longitude}")
+    public List<LocationTags> getRoute(@PathVariable Integer listID, @PathVariable float latitude, @PathVariable float longitude){
         return routingService.shortestPath(latitude, longitude, listID);
     }
 }
