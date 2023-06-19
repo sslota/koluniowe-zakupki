@@ -20,4 +20,8 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
             "JOIN PositionOnList pl ON pl.productID = p.ID WHERE pl.listID = :listID "
     )
     List<Tag> findTagsForList(Integer listID);
+
+    @Query(value = "SELECT p FROM Tag p WHERE p.userID=:userID OR p.userID=null")
+
+    List<Tag> findTagsAvailableForUser(Integer userID);
 }

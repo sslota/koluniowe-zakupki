@@ -1,7 +1,6 @@
 package pl.edu.agh.backend.api.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +18,9 @@ public class TagController {
     private final TagService tagService;
 
     @GetMapping
-    public List<Tag> getAllTags() {
-        return tagService.getTags();
+    public List<Tag> getTagsAvailableForUser(@RequestParam Integer userID) {
+
+        return tagService.getTagsAvailableForUser(userID);
     }
 
     @GetMapping("/product={productID}")

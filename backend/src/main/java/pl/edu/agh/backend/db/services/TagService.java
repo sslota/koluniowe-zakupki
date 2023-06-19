@@ -19,8 +19,8 @@ public class TagService {
 
     private final TagShopRepository tagShopRepository;
 
-    public List<Tag> getTags() {
-        return tagRepository.findAll();
+    public List<Tag> getTagsAvailableForUser(Integer userID) {
+        return tagRepository.findTagsAvailableForUser(userID);
     }
 
     public List<Tag> getTagsForProduct(Integer productID){
