@@ -24,4 +24,8 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
     @Query(value = "SELECT p FROM Tag p WHERE p.userID=:userID OR p.userID=null")
 
     List<Tag> findTagsAvailableForUser(Integer userID);
+
+    @Query(value = "SELECT p FROM Tag p WHERE p.userID=:userID")
+
+    List<Tag> findUserTags(Integer userID);
 }

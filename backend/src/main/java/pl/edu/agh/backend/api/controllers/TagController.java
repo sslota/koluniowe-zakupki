@@ -23,6 +23,12 @@ public class TagController {
         return tagService.getTagsAvailableForUser(userID);
     }
 
+    @GetMapping("/userID={userID}")
+    public List<Tag> getUserTags(@PathVariable Integer userID) {
+
+        return tagService.getUserTags(userID);
+    }
+
     @GetMapping("/product={productID}")
     public List<Tag> getTagsForProduct(@PathVariable Integer productID) {
         return tagService.getTagsForProduct(productID);

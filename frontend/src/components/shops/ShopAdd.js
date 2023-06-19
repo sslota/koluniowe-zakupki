@@ -13,10 +13,11 @@ function ShopAdd() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const id = localStorage.getItem("id");
     async function fetchProducts() {
       try {
         const response = await fetch(
-            `http://localhost:8080/tags`,
+            `http://localhost:8080/tags?userID=${id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

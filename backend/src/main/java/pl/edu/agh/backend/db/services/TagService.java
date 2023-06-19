@@ -23,6 +23,10 @@ public class TagService {
         return tagRepository.findTagsAvailableForUser(userID);
     }
 
+    public List<Tag> getUserTags(Integer userID) {
+        return tagRepository.findUserTags(userID);
+    }
+
     public List<Tag> getTagsForProduct(Integer productID){
         return tagRepository.findTagsForProduct(productID);
     }
