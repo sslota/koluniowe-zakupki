@@ -9,7 +9,11 @@ const AuthGuard = ({ element: Element }) => {
     if (!isAuth) {
       navigate("/sign-in");
     }
-  }, [isAuth, navigate]);
+  }, [isAuth, navigate])
+
+  if (!isAuth) {
+    return null;
+  }
 
   return <Element />;
 };

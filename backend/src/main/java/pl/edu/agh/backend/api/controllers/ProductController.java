@@ -22,12 +22,15 @@ public class ProductController {
     public List<Product> getProductsAvailableToUser(@RequestParam Integer userID,
                                                     @RequestParam(required = false) Integer listID) {
         if(listID==null) return productService.getUserProducts(userID);
-        return productService.getProductsAvaliableForList(userID, listID);
+        return productService.getProductsAvailableForList(userID, listID);
     }
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductRequest createProductRequest) {
         Product product = productService.addProduct( createProductRequest.createProduct() );
+        createProductRequest.getTags().forEach(tag -> {
+            productService.addProductTag(createProductRequest.createProductTag(product.getID(), tag.getID()));
+        });
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 

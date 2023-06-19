@@ -1,13 +1,60 @@
-import { React, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function ShopAdd() {
   const [name, setName] = useState("");
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
   const [location, setLocation] = useState("");
+  const [tags, setTags] = useState([]);
+  const [chosenTags, setChosenTags] = useState([]);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const id = localStorage.getItem("id");
+    async function fetchProducts() {
+      try {
+        const response = await fetch(
+            `http://localhost:8080/tags?userID=${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+        );
+        const tags = await response.json();
+        setTags(tags);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchProducts().then((response) => {
+      return response;
+    });
+  },[]);
 
   const addShop = (event) => {
     event.preventDefault();
+
+    const trimmedName = name.trim();
+
+    if (trimmedName.length === 0) {
+      setError("Please enter shop.");
+      return;
+    }
+
+    if (trimmedName.length > 30) {
+      setError("The maximum length for the name is 30 characters.");
+      return;
+    }
+
+    if (trimmedName.includes("/")) {
+      setError("The name cannot contain '/' character.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     const id = localStorage.getItem("id");
     fetch(`http://localhost:8080/shops`, {
@@ -17,9 +64,11 @@ function ShopAdd() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        name: name,
+        name: trimmedName,
         userID: id,
-        location: location,
+        latitude: latitude,
+        longitude: longitude,
+        tags: chosenTags
       }),
     })
       .then((response) => {
@@ -35,6 +84,39 @@ function ShopAdd() {
           error
         );
       });
+  };
+
+  const handleLocationChange = async (event) => {
+    const location = event.target.value;
+    setLocation(location);
+    try {
+      const response = await fetch (
+          `https://geocode.maps.co/search?q={${location}}`
+          );
+      const data = await response.json();
+      if (data.length > 0) {
+        const {lat, lon} = data[0];
+        setLatitude(lat);
+        setLongitude(lon);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleChosenTags = (event) => {
+    const {checked} = event.target;
+    const tagID = parseInt(event.target.value);
+    if (checked) {
+      const selectedTag = tags.find((tag) => tag.id === tagID)
+      if (selectedTag) {
+        setChosenTags((prevTags) => [
+          ...prevTags, selectedTag
+        ]);
+      }
+    } else {
+      setChosenTags((prevTags) => prevTags.filter((prevTag) => prevTag.id !== tagID));
+    }
   };
 
   return (
@@ -62,7 +144,7 @@ function ShopAdd() {
 
           <div>
             <label
-              htmlFor="location"
+              htmlFor="latitude"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Location
@@ -75,11 +157,48 @@ function ShopAdd() {
                 autoComplete="location"
                 required
                 value={location}
-                onChange={(event) => setLocation(event.target.value)}
+                onChange={handleLocationChange}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
+          <div
+              className="text-md pt-4 font-medium leading-6 text-gray-900"
+          >
+            Tags
+          </div>
+          <div
+              className="py-1 grid grid-cols-2 text-center"
+          >
+            {tags.map((tags) => (
+                    <div className="mt-2"  key={tags.id}>
+                      <div
+                          className="truncate"
+                      >
+                        <label
+                            htmlFor="tags"
+                            className="text-gray-600 text-base font-semibold"
+                        >
+                          {tags.name}
+                        </label>
+                      </div>
+                      <input
+                          id="tags"
+                          name="tags"
+                          type="checkbox"
+                          value={tags.id}
+                          onChange={handleChosenTags}
+                          className="form-checkbox border-0 h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                      />
+                    </div>
+                )
+            )}
+          </div>
+          {error && (
+              <div className="mt-2 text-center text-sm text-red-600">
+                {error}
+              </div>
+          )}
         </div>
 
         <div className=" flex space-x-4">

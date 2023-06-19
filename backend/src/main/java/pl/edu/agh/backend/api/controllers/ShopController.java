@@ -25,6 +25,9 @@ public class ShopController {
     @PostMapping
     public ResponseEntity<Shop> createShop(@RequestBody CreateShopRequest createShopRequest) {
         Shop shop = shopService.addShop( createShopRequest.createShop() );
+        createShopRequest.getTags().forEach(tag -> {
+            shopService.addShopTag(createShopRequest.createShopTag(shop.getID(), tag.getID()));
+        });
         return new ResponseEntity<>(shop, HttpStatus.CREATED);
     }
 

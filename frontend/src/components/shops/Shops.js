@@ -1,7 +1,7 @@
-import { React, useState, useEffect } from "react";
+import {React, useEffect, useState} from "react";
 import DropdownMenu from "../DropdownMenu";
-import { TrashIcon, BuildingStorefrontIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import {BuildingStorefrontIcon, TrashIcon} from "@heroicons/react/24/outline";
+import {Link} from "react-router-dom";
 
 function Shops() {
   const [shops, setShops] = useState([]);
@@ -17,10 +17,34 @@ function Shops() {
       const data = await response.json();
       setShops(data);
     }
-    fetchShops().then((response) => {
-      return response;
-    });
+    // Wanted to add reverse geolocation, unfortunately we don't have enough money for Google apis :D
+    // const reverseGeocode = async (latitude, longitude) => {
+    //   const response = await fetch(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`);
+    //   const geocode = await response.json();
+    //   const display_name = geocode.display_name;
+    //   return display_name;
+    // }
+    //
+    // const fetchShopLocations = async() => {
+    //   const updatedShops = [];
+    //   for (const shop of shops) {
+    //     const location = await reverseGeocode(shop.latitude, shop.longitude);
+    //     const data = location.split(",");
+    //     const address = data[0];
+    //     const street = data[1];
+    //     const city = data[5];
+    //
+    //     const updatedShop = { ...shop, location: `${address}, ${street}, ${city}` };
+    //     updatedShops.push(updatedShop);
+    //   }
+    //   setShops(updatedShops);
+    // };
+
+    fetchShops();
+    // fetchShopLocations();
   }, []);
+
+
 
   const deleteShop = async (id) => {
     if (window.confirm("Confirm to delete this shop")) {
@@ -53,6 +77,12 @@ function Shops() {
 
               <p className="mt-2 hidden font-semibold text-sm sm:block">
                 {shop.location}
+              </p>
+              <p className="mt-2 hidden font-semibold text-sm sm:block">
+                {shop.latitude}
+              </p>
+              <p className="mt-2 hidden font-semibold text-sm sm:block">
+                {shop.longitude}
               </p>
             </div>
 

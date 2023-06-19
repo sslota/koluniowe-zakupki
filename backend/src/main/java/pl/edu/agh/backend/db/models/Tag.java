@@ -17,6 +17,4 @@ public class Tag {
     private String name;
     @Nullable
     private Integer userID;
-    @Nullable
-    private Integer parentTagID;
 }
