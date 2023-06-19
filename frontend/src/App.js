@@ -20,15 +20,14 @@ import TagAdd from "./components/tags/TagAdd";
 import SpecificList from "./components/lists/list/SpecificList";
 import AddProductToList from "./components/lists/list/AddProductToList";
 import AuthGuard from "./AuthGuard";
+import About from "./components/About";
 
 function App() {
   return (
     <Routes>
-        <Route path="/" element={<AuthGuard element={Lists} />} />
+      <Route path="/" element={<AuthGuard element={Lists} />} />
       <Route path="/list" element={<AuthGuard element={Lists} />} />
       <Route path="/list-add" element={<AuthGuard element={ListAdd} />} />
-      <Route path="/about-us" element={<AuthGuard element={Lists} />} />
-
       <Route
         path="/list/:id/:name/route"
         element={<AuthGuard element={Map} />}
@@ -58,6 +57,7 @@ function App() {
       <Route path="/tag-add" element={<AuthGuard element={TagAdd} />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
+      <Route path="/about-us" element={<About />} />
       <Route path="/*" element={<Navigate to="/" replace />} />
     </Routes>
   );
