@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class JwtService {
                 .setClaims(extraClaims) //extraClaims dodatkowe dane które będą zawarte w tokenie
                 .setSubject(userDetails.getUsername()) //ustawia podmiot tokenu JWT na nazwę użytkownika otrzymaną z obiektu userDetails
                 .setIssuedAt(new Date(System.currentTimeMillis())) //czas wygenerowania tokenu
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24)) //czas wygaśnięcia tokenu
+                .setExpiration(Date.from(ZonedDateTime.now().plusYears(9999).toInstant()))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256) //podpoisuje token przy użycia klucza oraz algorytmu podpisu HS256
                 .compact();  //Generuje ostateczny token JWT w postaci skompaktowanej (base64url-encoded string).
     }
