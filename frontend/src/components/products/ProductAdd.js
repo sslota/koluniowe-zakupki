@@ -1,10 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function ProductAdd() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const [tags, setTags] = useState([]);
+  const [chosenTags, setChosenTags] = useState([]);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    async function fetchProducts() {
+      try {
+        const response = await fetch(
+            `http://localhost:8080/tags`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+        );
+        const data = await response.json();
+        setTags(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchProducts().then((response) => {
+      return response;
+    });
+  },[]);
+
+
 
   const addProduct = (event) => {
     event.preventDefault();
@@ -34,8 +62,9 @@ function ProductAdd() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        name: name,
+        name: trimmedName,
         userID: id,
+        tags: chosenTags
       }),
     })
       .then((response) => {
@@ -51,6 +80,21 @@ function ProductAdd() {
           error
         );
       });
+  };
+
+  const handleChosenTags = (event) => {
+    const {checked} = event.target;
+    const tagID = parseInt(event.target.value);
+    if (checked) {
+      const selectedTag = tags.find((tag) => tag.id === tagID)
+      if (selectedTag) {
+        setChosenTags((prevTags) => [
+          ...prevTags, selectedTag
+        ]);
+      }
+    } else {
+      setChosenTags((prevTags) => prevTags.filter((prevTag) => prevTag.id !== tagID));
+    }
   };
 
   return (
@@ -79,6 +123,38 @@ function ProductAdd() {
               onChange={(event) => setName(event.target.value)}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
+          </div>
+          <div
+              className="text-md pt-4 font-medium leading-6 text-gray-900"
+          >
+            Tags
+          </div>
+          <div
+              className="py-1 grid grid-cols-2 text-center"
+          >
+          {tags.map((tags) => (
+              <div className="mt-2"  key={tags.id}>
+                <div
+                className="truncate"
+                >
+                <label
+                    htmlFor="tags"
+                    className="text-gray-600 text-base font-semibold"
+                >
+                  {tags.name}
+                </label>
+                </div>
+                <input
+                    id="tags"
+                    name="tags"
+                    type="checkbox"
+                    value={tags.id}
+                    onChange={handleChosenTags}
+                    className="form-checkbox border-0 h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                />
+              </div>
+              )
+          )}
           </div>
           {error && (
               <div className="mt-2 text-center text-sm text-red-600">

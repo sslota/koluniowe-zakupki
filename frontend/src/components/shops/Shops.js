@@ -17,10 +17,33 @@ function Shops() {
       const data = await response.json();
       setShops(data);
     }
-    fetchShops().then((response) => {
-      return response;
-    });
+
+    const reverseGeocode = async (latitude, longitude) => {
+      const response = await fetch(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`);
+      const geocode = await response.json();
+      const display_name = geocode.display_name;
+      return display_name;
+    }
+
+    const fetchShopLocations = async() => {
+      const updatedShops = [];
+      for (const shop of shops) {
+        const location = await reverseGeocode(shop.latitude, shop.longitude);
+        const display_name = location;
+        const data = display_name.split(",");
+        const address = data[0];
+        const street = data[1];
+        const city = data[5];
+
+        const updatedShop = { ...shop, location: `${address}, ${street}, ${city}` };
+        updatedShops.push(updatedShop);
+      }
+      setShops(updatedShops);
+    };
+    fetchShops();
+    fetchShopLocations();
   }, []);
+
 
   const deleteShop = async (id) => {
     if (window.confirm("Confirm to delete this shop")) {
@@ -52,10 +75,7 @@ function Shops() {
               </h3>
 
               <p className="mt-2 hidden font-semibold text-sm sm:block">
-                {shop.latitude}
-              </p>
-              <p className="mt-2 hidden font-semibold text-sm sm:block">
-                {shop.longitude}
+                {shop.location}
               </p>
             </div>
 

@@ -1,19 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import DropdownMenu from "../DropdownMenu";
 import { Link } from "react-router-dom";
 
 function Tags() {
-  const Tags = [
-    { id: 1, name: "Tag1", state: true },
-    { id: 2, name: "Tag2", state: false },
-    { id: 3, name: "Tag3", state: false },
-  ];
+  const [tags, setTags] = useState([]);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        // const id = localStorage.getItem("id"); waiting for better endpoint in backend
+        async function fetchTags() {
+            const response = await fetch(
+                `http://localhost:8080/tags`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            const data = await response.json();
+            setTags(data);
+        }
+
+        fetchTags().then((response) => {
+            return response;
+        });
+    }, []);
+
+    const deleteTag = async (id) => {
+        if (window.confirm("Confirm to delete this tag")) {
+            const token = localStorage.getItem("token");
+            await fetch(`http://localhost:8080/tags?tagID=${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const updatedTags = tags.filter((tag) => tag.id !== id);
+            setTags(updatedTags);
+        }
+    };
 
   return (
     <div className="flex items-center justify-center mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
       <div className="grid gap-10 w-3/4 max-w-screen-md">
-        {Tags.map((tag) => (
+        {tags.map((tag) => (
           <div
             key={tag.id}
             className="bg-white p-5 rounded-md flex items-center justify-between space-x-10"
@@ -23,6 +55,7 @@ function Tags() {
               <TrashIcon
                 className="text-gray-600 h-8 w-8 cursor-pointer"
                 title="Delete"
+                onClick={() => deleteTag(tag.id)}
               />
             </div>
           </div>
