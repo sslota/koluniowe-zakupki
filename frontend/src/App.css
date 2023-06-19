@@ -2,3 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+
+.leaflet-right{
+    display: none;
+}

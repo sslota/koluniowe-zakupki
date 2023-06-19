@@ -52,7 +52,10 @@ function Shops() {
               </h3>
 
               <p className="mt-2 hidden font-semibold text-sm sm:block">
-                {shop.location}
+                {shop.latitude}
+              </p>
+              <p className="mt-2 hidden font-semibold text-sm sm:block">
+                {shop.longitude}
               </p>
             </div>
 
