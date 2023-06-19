@@ -46,9 +46,9 @@ function Products() {
         {products.map((product) => (
           <div
             key={product.id}
-            className="bg-white p-5 rounded-md flex items-center justify-between space-x-10"
+            className="bg-white msm:max-w-md sm-md:max-w-lg md:max-w-screen-sm lg:max-w-screen-md p-5 rounded-md flex items-center justify-between space-x-10"
           >
-            <div className="text-gray-800 text-2xl">{product.name}</div>
+            <div className="msm:w-48 truncate text-gray-800 text-2xl">{product.name}</div>
             <div className="flex items-center space-x-2">
               <TrashIcon
                 className="text-gray-600 h-8 w-8 cursor-pointer"

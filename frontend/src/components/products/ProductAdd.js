@@ -3,10 +3,28 @@ import { Link, useNavigate } from "react-router-dom";
 
 function ProductAdd() {
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const addProduct = (event) => {
     event.preventDefault();
+
+    const trimmedName = name.trim();
+
+    if (trimmedName.length === 0) {
+      setError("Please enter product.");
+      return;
+    }
+
+    if (trimmedName.length > 30) {
+      setError("The maximum length for the name is 30 characters.");
+      return;
+    }
+
+    if (trimmedName.includes("/")) {
+      setError("The name cannot contain '/' character.");
+      return;
+    }
     const token = localStorage.getItem("token");
     const id = localStorage.getItem("id");
     fetch(`http://localhost:8080/products`, {
@@ -62,6 +80,11 @@ function ProductAdd() {
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
+          {error && (
+              <div className="mt-2 text-center text-sm text-red-600">
+                {error}
+              </div>
+          )}
         </div>
 
         <div className=" flex space-x-4">
