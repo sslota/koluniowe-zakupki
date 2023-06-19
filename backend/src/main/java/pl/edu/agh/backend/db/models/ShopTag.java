@@ -9,7 +9,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShopTags {
+public class ShopTag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

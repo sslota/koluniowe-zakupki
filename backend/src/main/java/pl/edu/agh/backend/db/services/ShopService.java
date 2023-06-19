@@ -12,6 +12,8 @@ import java.util.Optional;
 public class ShopService {
     private final ShopRepository shopRepository;
 
+    private final TagShopRepository tagShopRepository;
+
     public List<Shop> getShops(){ return shopRepository.findAll(); }
     public Shop addShop(Shop shop){
         Example<Shop> example = Example.of(shop);
@@ -38,8 +40,14 @@ public class ShopService {
         Optional<Shop> shop = shopRepository.findById(shopID);
         if(shop.isPresent()){
             shopRepository.deleteById(shopID);
+            tagShopRepository.deleteWithShopId(shopID);
         }
         return shop;
     }
 
+    public ShopTag addShopTag(ShopTag shopTag) {
+        Example<ShopTag> example = Example.of(shopTag);
+        Optional<ShopTag> tagShopInDb = tagShopRepository.findOne(example);
+        return tagShopInDb.orElseGet(() -> tagShopRepository.save(shopTag));
+    }
 }

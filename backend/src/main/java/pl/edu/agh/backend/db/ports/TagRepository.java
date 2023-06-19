@@ -8,16 +8,24 @@ import java.util.List;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {
 
-    @Query(value = "SELECT t FROM Tag t JOIN ProductTags pt ON pt.tagID = t.ID WHERE pt.productID = :id")
+    @Query(value = "SELECT t FROM Tag t JOIN ProductTag pt ON pt.tagID = t.ID WHERE pt.productID = :id")
     List<Tag> findTagsForProduct(Integer id);
 
 
-    @Query(value = "SELECT t FROM Tag t JOIN ShopTags pt ON pt.tagID = t.ID WHERE pt.shopID = :id")
+    @Query(value = "SELECT t FROM Tag t JOIN ShopTag pt ON pt.tagID = t.ID WHERE pt.shopID = :id")
     List<Tag> findTagsForShop(Integer id);
     @Query(value = "SELECT DISTINCT t FROM Tag t " +
-            "JOIN ProductTags pt ON pt.tagID = t.ID " +
+            "JOIN ProductTag pt ON pt.tagID = t.ID " +
             "JOIN Product p ON pt.productID = p.ID " +
             "JOIN PositionOnList pl ON pl.productID = p.ID WHERE pl.listID = :listID "
     )
     List<Tag> findTagsForList(Integer listID);
+
+    @Query(value = "SELECT p FROM Tag p WHERE p.userID=:userID OR p.userID=null")
+
+    List<Tag> findTagsAvailableForUser(Integer userID);
+
+    @Query(value = "SELECT p FROM Tag p WHERE p.userID=:userID")
+
+    List<Tag> findUserTags(Integer userID);
 }

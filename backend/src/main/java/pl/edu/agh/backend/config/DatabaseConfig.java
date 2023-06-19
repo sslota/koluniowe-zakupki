@@ -26,19 +26,20 @@ public class DatabaseConfig {
 
     @Bean
     public ProductService productService(ProductRepository productRepository,
-                                         ListProductRepository listProductService) {
-        return new ProductService(productRepository, listProductService);
+                                         ListProductRepository listProductRepository, TagProductRepository tagProductRepository) {
+        return new ProductService(productRepository, listProductRepository, tagProductRepository);
     }
 
     @Bean
-    public ShopService shopService(ShopRepository shopRepository) {
-        return new ShopService(shopRepository);
+    public ShopService shopService(ShopRepository shopRepository, TagShopRepository tagShopRepository) {
+        return new ShopService(shopRepository, tagShopRepository);
     }
 
     @Bean
-    public TagService tagService(TagRepository tagRepository) {
-        return new TagService(tagRepository);
+    public TagService tagService(TagRepository tagRepository, TagProductRepository tagProductRepository, TagShopRepository tagShopRepository) {
+        return new TagService(tagRepository, tagProductRepository, tagShopRepository);
     }
+
     @Bean
     public RoutingService routingService(ShopService shopService, TagService tagService) {
         return new RoutingService(shopService, tagService);

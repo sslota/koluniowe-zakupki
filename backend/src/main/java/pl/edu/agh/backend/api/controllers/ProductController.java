@@ -28,6 +28,9 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductRequest createProductRequest) {
         Product product = productService.addProduct( createProductRequest.createProduct() );
+        createProductRequest.getTags().forEach(tag -> {
+            productService.addProductTag(createProductRequest.createProductTag(product.getID(), tag.getID()));
+        });
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
