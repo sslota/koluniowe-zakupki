@@ -44,7 +44,6 @@ const EditShop = (props) => {
                     longitude: longitude
                 }),
             });
-        console.log("chuj");
         setEditShop(false);
     };
 

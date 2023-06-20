@@ -60,13 +60,11 @@ export default function Routing(listID) {
     }
     }, [map]);
     if (!map) return;
-    console.log(locations);
     const routingControl = L.Routing.control({
       waypoints: locations.map((loc,i)=>(L.latLng(loc.location.latitude,loc.location.longitude))),
       routeWhileDragging: true,
       draggableWaypoints: false,
       addWaypoints: false,
     }).addTo(map);
-    console.log(routingControl);
     return () => map.removeControl(routingControl);
 }
