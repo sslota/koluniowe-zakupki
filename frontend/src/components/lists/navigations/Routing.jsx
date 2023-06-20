@@ -57,7 +57,7 @@ export default function Routing(listID) {
       );
     } else {
       setError('Geolocation is not supported by this browser.');
-    };
+    }
     }, [map]);
     if (!map) return;
     console.log(locations);

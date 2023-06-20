@@ -78,12 +78,6 @@ function Shops() {
               <p className="mt-2 hidden font-semibold text-sm sm:block">
                 {shop.location}
               </p>
-              <p className="mt-2 hidden font-semibold text-sm sm:block">
-                {shop.latitude}
-              </p>
-              <p className="mt-2 hidden font-semibold text-sm sm:block">
-                {shop.longitude}
-              </p>
             </div>
 
             <span className="absolute -bottom-16 right-12 px-20 h-32 w-32 bg-green-500 opacity-50 rounded-full" />

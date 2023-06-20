@@ -17,6 +17,7 @@ public class Shop {
     private String name;
     private float latitude;
     private float longitude;
+    private String location;
     @Nullable
     private Integer userID;
 }
