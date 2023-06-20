@@ -3,27 +3,26 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import DropdownMenu from "../DropdownMenu";
 import { Link } from "react-router-dom";
 
+export async function fetchTags() {
+    const token = localStorage.getItem("token");
+    const id = localStorage.getItem("id");
+    const response = await fetch(
+        `http://localhost:8080/tags/userID=${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+    return await response.json();
+}
+
 function Tags() {
   const [tags, setTags] = useState([]);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        const id = localStorage.getItem("id");
-        async function fetchTags() {
-            const response = await fetch(
-                `http://localhost:8080/tags/userID=${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            const data = await response.json();
+        fetchTags().then((data) => {
             setTags(data);
-        }
-
-        fetchTags().then((response) => {
-            return response;
         });
     }, []);
 

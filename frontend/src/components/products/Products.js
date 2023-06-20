@@ -1,8 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import DropdownMenu from "../DropdownMenu";
 import {PencilSquareIcon, TrashIcon} from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import EditProductName from "./EditProductName";
+
+export async function fetchProducts() {
+  const token = localStorage.getItem("token");
+  const id = localStorage.getItem("id");
+  const response = await fetch(
+      `http://localhost:8080/products?userID=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+  );
+  return await response.json();
+}
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -10,22 +24,8 @@ function Products() {
   const [productID, setProductID] = useState();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const id = localStorage.getItem("id");
-    async function fetchProducts() {
-      const response = await fetch(
-        `http://localhost:8080/products?userID=${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
+    fetchProducts().then((data) => {
       setProducts(data);
-    }
-    fetchProducts().then((response) => {
-      return response;
     });
   }, [showEditProductName]);
 

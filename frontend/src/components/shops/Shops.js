@@ -4,22 +4,25 @@ import {BuildingStorefrontIcon, PencilSquareIcon, TrashIcon} from "@heroicons/re
 import {Link} from "react-router-dom";
 import EditShop from "./EditShop";
 
+export async function fetchShops() {
+  const token = localStorage.getItem("token");
+    const response = await fetch(`http://localhost:8080/shops`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+}
+
 function Shops() {
   const [shops, setShops] = useState([]);
   const [showEditShop, setShowEditShop] = useState(false);
   const [shopID, setShopID] = useState();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    async function fetchShops() {
-      const response = await fetch(`http://localhost:8080/shops`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
+    fetchShops().then((data) => {
       setShops(data);
-    }
+      });
     // Wanted to add reverse geolocation, unfortunately we don't have enough money for Google apis :D
     // const reverseGeocode = async (latitude, longitude) => {
     //   const response = await fetch(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`);
@@ -43,7 +46,7 @@ function Shops() {
     //   setShops(updatedShops);
     // };
 
-    fetchShops();
+    // fetchShops();
     // fetchShopLocations();
   }, [showEditShop]);
 
@@ -78,7 +81,7 @@ function Shops() {
                 {shop.name}
               </h3>
 
-              <p className="mt-2 hidden font-semibold text-sm sm:block">
+              <p className="mt-2 hidden w-20 font-semibold text-sm sm:block">
                 {shop.location}
               </p>
             </div>
