@@ -29,6 +29,7 @@ public class ShopService {
             modifiedShop.setLatitude(shop.getLatitude());
             modifiedShop.setLongitude(shop.getLongitude());
             modifiedShop.setUserID(shop.getUserID());
+            modifiedShop.setLocation(shop.getLocation());
             //open for future extensions
         }
         else modifiedShop = new Shop();

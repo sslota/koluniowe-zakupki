@@ -1,10 +1,13 @@
 import {React, useEffect, useState} from "react";
 import DropdownMenu from "../DropdownMenu";
-import {BuildingStorefrontIcon, TrashIcon} from "@heroicons/react/24/outline";
+import {BuildingStorefrontIcon, PencilSquareIcon, TrashIcon} from "@heroicons/react/24/outline";
 import {Link} from "react-router-dom";
+import EditShop from "./EditShop";
 
 function Shops() {
   const [shops, setShops] = useState([]);
+  const [showEditShop, setShowEditShop] = useState(false);
+  const [shopID, setShopID] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -42,7 +45,7 @@ function Shops() {
 
     fetchShops();
     // fetchShopLocations();
-  }, []);
+  }, [showEditShop]);
 
 
 
@@ -83,6 +86,14 @@ function Shops() {
             <span className="absolute -bottom-16 right-12 px-20 h-32 w-32 bg-green-500 opacity-50 rounded-full" />
             <span className="absolute -bottom-14 -right-12 px-12 h-24 w-32 bg-green-500 opacity-50 rounded-full" />
 
+            <span className="absolute right-0 bottom-6 rounded-full px-3 py-2 cursor-pointer">
+              <PencilSquareIcon
+                  className="w-8 h-8 md:w-16 cursor-pointer"
+                  title="Edit"
+                  onClick={() => { setShopID(shop.id); setShowEditShop(!showEditShop)}}
+              />
+            </span>
+
             <span className="absolute right-6 top-6 rounded-full bg-red-400 px-3 py-2 cursor-pointer">
               <TrashIcon
                 className="text-gray-600 h-6 w-6"
@@ -93,6 +104,10 @@ function Shops() {
           </div>
         ))}
       </div>
+
+      {showEditShop && (
+          <EditShop shopID={shopID} setEditShop={setShowEditShop} />
+      )}
 
       <div className="fixed bottom-24 sm:flex sm:space-y-0 sm:space-x-10 grid grid-flow-row place-items-center space-y-4">
         <Link to="/shop-add">
