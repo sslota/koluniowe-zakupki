@@ -6,7 +6,8 @@ import EditShop from "./EditShop";
 
 export async function fetchShops() {
   const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:8080/shops`, {
+  const id = localStorage.getItem("id");
+    const response = await fetch(`http://localhost:8080/shops/userID=${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
