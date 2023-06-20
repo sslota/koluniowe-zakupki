@@ -15,6 +15,10 @@ public class ShopService {
     private final TagShopRepository tagShopRepository;
 
     public List<Shop> getShops(){ return shopRepository.findAll(); }
+
+    public List<Shop> getUserShops(Integer userID) {
+        return shopRepository.findUserShops(userID);
+    }
     public Shop addShop(Shop shop){
         Example<Shop> example = Example.of(shop);
         Optional<Shop> shopInDb = shopRepository.findOne(example);
