@@ -3,10 +3,28 @@ import { Link, useNavigate } from "react-router-dom";
 
 function ListAdd() {
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
   const history = useNavigate();
 
   const addList = (event) => {
     event.preventDefault();
+    const trimmedName = name.trim();
+
+    if (trimmedName.length === 0) {
+      setError("Please enter a name for the list.");
+      return;
+    }
+
+    if (trimmedName.length > 30) {
+      setError("The maximum length for the name is 30 characters.");
+      return;
+    }
+
+    if (trimmedName.includes("/")) {
+      setError("The name cannot contain '/' character.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     const id = localStorage.getItem("id");
     fetch("http://localhost:8080/shopping-lists", {
@@ -16,25 +34,24 @@ function ListAdd() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        name: name,
+        name: trimmedName, // Use the trimmed name for the request
         userID: id,
       }),
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        window.alert("List added successfully!");
-        history("/");
-        return response.json();
-      })
-      .catch((error) => {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          window.alert("List added successfully!");
+          history("/");
+          return response.json();
+        })
+        .catch((err) => {
+          console.log(err);
+          setError("There was an error with fetch operation");
+        });
   };
+
 
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -58,6 +75,11 @@ function ListAdd() {
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
+          {error && (
+              <div className="mt-2 text-center text-sm text-red-600">
+                {error}
+              </div>
+          )}
         </div>
 
         <div className=" flex space-x-4">

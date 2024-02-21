@@ -1,12 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import DropdownMenu from "../DropdownMenu";
-import {
-  DocumentDuplicateIcon,
-  TrashIcon,
-  HeartIcon as HeartOutlineIcon,
-} from "@heroicons/react/24/outline";
-import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
+import {DocumentDuplicateIcon, HeartIcon as HeartOutlineIcon, TrashIcon,} from "@heroicons/react/24/outline";
+import {HeartIcon as HeartSolidIcon} from "@heroicons/react/24/solid";
+import {Link} from "react-router-dom";
+
+export async function fetchLists() {
+  const token = localStorage.getItem("token");
+  const id = localStorage.getItem("id");
+  const response = await fetch(
+      `http://localhost:8080/shopping-lists/user=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+  );
+  const data = await response.json();
+  return data.map((list) => ({
+    ...list,
+    state: false,
+  }));
+}
 
 function Lists() {
   const [listsData, setLists] = useState([]);
@@ -59,26 +73,8 @@ function Lists() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const id = localStorage.getItem("id");
-    async function fetchLists() {
-      const response = await fetch(
-        `http://localhost:8080/shopping-lists/user=${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      const updatedData = data.map((list) => ({
-        ...list,
-        state: false,
-      }));
-      setLists(updatedData);
-    }
-    fetchLists().then((response) => {
-      return response;
+    fetchLists().then((data) => {
+      setLists(data);
     });
   }, []);
 

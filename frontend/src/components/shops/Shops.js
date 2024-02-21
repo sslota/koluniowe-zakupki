@@ -1,26 +1,57 @@
-import { React, useState, useEffect } from "react";
+import {React, useEffect, useState} from "react";
 import DropdownMenu from "../DropdownMenu";
-import { TrashIcon, BuildingStorefrontIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import {BuildingStorefrontIcon, PencilSquareIcon, TrashIcon} from "@heroicons/react/24/outline";
+import {Link} from "react-router-dom";
+import EditShop from "./EditShop";
+
+export async function fetchShops() {
+  const token = localStorage.getItem("token");
+  const id = localStorage.getItem("id");
+    const response = await fetch(`http://localhost:8080/shops/userID=${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+}
 
 function Shops() {
   const [shops, setShops] = useState([]);
+  const [showEditShop, setShowEditShop] = useState(false);
+  const [shopID, setShopID] = useState();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    async function fetchShops() {
-      const response = await fetch(`http://localhost:8080/shops`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
+    fetchShops().then((data) => {
       setShops(data);
-    }
-    fetchShops().then((response) => {
-      return response;
-    });
-  }, []);
+      });
+    // Wanted to add reverse geolocation, unfortunately we don't have enough money for Google apis :D
+    // const reverseGeocode = async (latitude, longitude) => {
+    //   const response = await fetch(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`);
+    //   const geocode = await response.json();
+    //   const display_name = geocode.display_name;
+    //   return display_name;
+    // }
+    //
+    // const fetchShopLocations = async() => {
+    //   const updatedShops = [];
+    //   for (const shop of shops) {
+    //     const location = await reverseGeocode(shop.latitude, shop.longitude);
+    //     const data = location.split(",");
+    //     const address = data[0];
+    //     const street = data[1];
+    //     const city = data[5];
+    //
+    //     const updatedShop = { ...shop, location: `${address}, ${street}, ${city}` };
+    //     updatedShops.push(updatedShop);
+    //   }
+    //   setShops(updatedShops);
+    // };
+
+    // fetchShops();
+    // fetchShopLocations();
+  }, [showEditShop]);
+
+
 
   const deleteShop = async (id) => {
     if (window.confirm("Confirm to delete this shop")) {
@@ -51,13 +82,21 @@ function Shops() {
                 {shop.name}
               </h3>
 
-              <p className="mt-2 hidden font-semibold text-sm sm:block">
+              <p className="mt-2 hidden w-20 font-semibold text-sm sm:block">
                 {shop.location}
               </p>
             </div>
 
             <span className="absolute -bottom-16 right-12 px-20 h-32 w-32 bg-green-500 opacity-50 rounded-full" />
             <span className="absolute -bottom-14 -right-12 px-12 h-24 w-32 bg-green-500 opacity-50 rounded-full" />
+
+            <span className="absolute right-0 bottom-6 rounded-full px-3 py-2 cursor-pointer">
+              <PencilSquareIcon
+                  className="w-8 h-8 md:w-16 cursor-pointer"
+                  title="Edit"
+                  onClick={() => { setShopID(shop.id); setShowEditShop(!showEditShop)}}
+              />
+            </span>
 
             <span className="absolute right-6 top-6 rounded-full bg-red-400 px-3 py-2 cursor-pointer">
               <TrashIcon
@@ -69,6 +108,10 @@ function Shops() {
           </div>
         ))}
       </div>
+
+      {showEditShop && (
+          <EditShop shopID={shopID} setEditShop={setShowEditShop} />
+      )}
 
       <div className="fixed bottom-24 sm:flex sm:space-y-0 sm:space-x-10 grid grid-flow-row place-items-center space-y-4">
         <Link to="/shop-add">

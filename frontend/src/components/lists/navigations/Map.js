@@ -1,15 +1,32 @@
 import React from "react";
-import DropdownMenu from "../../DropdownMenu";
+import {useParams} from "react-router-dom";
+import { MapContainer, TileLayer } from 'react-leaflet';
+import "leaflet/dist/leaflet.css";
+import Routing from "./Routing";
+import "leaflet/dist/leaflet.css";
 
 function Map() {
-  return (
-    <div className="flex items-center justify-center mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
-      <img className="w-3/5" src="/route.jpeg" alt="route" />
 
-      <div className="fixed top-16 right-0 py-4 px-2 sm:px-6 lg:px-8">
-        <DropdownMenu />
+  const { id: listID} = useParams();
+  const mapStyle = {
+    height: `calc(100vh - 64px)`,
+  };
+  
+  return (
+      <div style={mapStyle}>
+        <MapContainer
+            className="h-full z-0"
+            center={[51.505, -0.09]}
+            zoom={13}
+            scrollWheelZoom={true}
+        >
+          <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Routing listID={listID} />
+        </MapContainer>
       </div>
-    </div>
   );
 }
 

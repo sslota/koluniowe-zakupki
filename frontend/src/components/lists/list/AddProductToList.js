@@ -53,7 +53,6 @@ const AddProductToList = () => {
         }),
       });
       if (response.ok) {
-        console.log("added");
         navigate(`/list/${id}/${name}`);
       } else {
         console.error("failed");
@@ -124,6 +123,7 @@ const AddProductToList = () => {
               id="quantity"
               name="quantity"
               type="number"
+              min="1"
               autoComplete="current-quantity"
               required
               value={quantity}

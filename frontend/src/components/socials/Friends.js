@@ -4,6 +4,20 @@ import DropdownMenu from "../DropdownMenu";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/outline";
 
+export async function fetchFriends() {
+  const token = localStorage.getItem("token");
+  const id = localStorage.getItem("id");
+  const response = await fetch(
+      `http://localhost:8080/socials/friends?userID=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+  );
+  return await response.json();
+}
+
 function Friends() {
   const [friends, setFriends] = useState([]);
 
@@ -14,22 +28,8 @@ function Friends() {
   ];
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const id = localStorage.getItem("id");
-    async function fetchFriends() {
-      const response = await fetch(
-        `http://localhost:8080/socials/friends?userID=${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
+    fetchFriends().then((data) => {
       setFriends(data);
-    }
-    fetchFriends().then((response) => {
-      return response;
     });
   }, []);
 

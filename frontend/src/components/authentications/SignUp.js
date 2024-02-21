@@ -30,8 +30,7 @@ function SignUp() {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Success:", data);
+      .then(() => {
         window.alert("Account created successfully, please log in");
         navigate("/sign-in");
       })

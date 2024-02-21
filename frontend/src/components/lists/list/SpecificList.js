@@ -9,7 +9,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import DropdownMenu from "../../DropdownMenu";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ShareList from "./ShareList";
 
 function SpecificList() {
@@ -18,6 +18,7 @@ function SpecificList() {
   const [showShareList, setShowShareList] = useState(false);
   const [showEditListName, setShowEditListName] = useState(false);
   const [newName, setNewName] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const updateProductQuantity = async (value, productID) => {
@@ -42,6 +43,23 @@ function SpecificList() {
 
   const renameList = async () => {
     const token = localStorage.getItem("token");
+    const trimmedName = newName.trim();
+
+    if (trimmedName.length === 0) {
+      setError("Please enter a name for the list.");
+      return;
+    }
+
+    if (trimmedName.length > 30) {
+      setError("The maximum length for the name is 30 characters.");
+      return;
+    }
+
+    if (trimmedName.includes("/")) {
+      setError("The name cannot contain '/' character.");
+      return;
+    }
+
     await fetch(`http://localhost:8080/shopping-lists/update-name`, {
       method: "PUT",
       headers: {
@@ -49,12 +67,12 @@ function SpecificList() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: newName,
+        name: trimmedName,
         listID: listID,
       }),
     });
     setShowEditListName(false);
-    navigate(`/list/${listID}/${newName}`);
+    navigate(`/list/${listID}/${trimmedName}`);
   };
 
   const deleteProductFromList = async (productID) => {
@@ -103,12 +121,12 @@ function SpecificList() {
 
   return (
     <div className="flex items-center justify-center mx-auto max-w-full py-8 px-2 sm:px-6 lg:px-8">
-      <div className="grid gap-10 w-3/4 max-w-screen-md">
-        <div className="bg-white p-5 rounded-md flex items-center justify-between space-x-10">
-          <div className="flex gap-2 text-gray-800">
-            <div className=" text-2xl">{name}</div>
+      <div className="grid gap-10 w-3/4 max-w-xs sm:max-w-screen-md">
+        <div className="bg-white sm:max-w-screen-md sm-md:space-x-1 p-5 rounded-md flex items-center justify-between space-x-10">
+          <div className="flex gap-2  max-w-screen-sm sm:max-w-sm lg:max-w-lg text-gray-800">
+            <div className="msm:w-24 sm-md:w-1/2 truncate text-2xl">{name}</div>
             <PencilSquareIcon
-              className="h-8 w-7 cursor-pointer"
+                className="w-8 h-8 md:w-16 cursor-pointer"
               title="Edit"
               onClick={() => setShowEditListName(true)}
             />
@@ -176,7 +194,7 @@ function SpecificList() {
         <div className="backdrop-filter backdrop-blur-lg fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-0 z-50 flex items-center justify-center">
           <div className="relative p-8 sm:p-12 rounded-3xl shadow-2xl h-1/2">
             <p className="text-sm font-semibold uppercase tracking-widest text-indigo-600">
-              Share list with your friend!
+              Change the name of your list!
             </p>
             <h2 className="mt-6 text-3xl font-bold">Edit List Name</h2>
             <div className="mb-4">
@@ -195,6 +213,11 @@ function SpecificList() {
                 onChange={(event) => setNewName(event.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
               />
+              {error && (
+                  <div className="mt-2 text-center text-sm text-red-600">
+                    {error}
+                  </div>
+              )}
             </div>
             <div className="flex justify-end">
               <XMarkIcon
